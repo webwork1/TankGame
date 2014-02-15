@@ -32,6 +32,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	public int goodBulletX;
 	public int goodBulletDamage = 1;
 	public int sideBulletDamage = 0;
+	
 	//good tank LEFT side bullet variables
 	
 	public double tankSideShootLeftX;
@@ -50,7 +51,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	public int tankSideShootRightMV;
 	
 	//good bullet movement speed
-	public double goodBulletM =.15;
+	public double goodBulletM = 6;
 	public int badTankX;
 	public int badTankMV;
 	public int badTankVV;
@@ -62,7 +63,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	public double badBulletY;
 	
 	//bad Bullet movement speed
-	public double badBulletM = .1;
+	public double badBulletM = 4;
 	
 	//bad tank bullet random firing variable
 	public int badBR;
@@ -81,20 +82,26 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	public int healthPrice=50;
 	public int bulletMovementPrice=75;
 	public int bulletDamagePrice=500;
-	public int spreadBulletPrice = 1500;
+	public int spreadBulletPrice = 1000;
+	public int shieldPrice = 750;
 	
 	//x and y variables to access mouse cordinates
 	public int MouseX;
 	public int MouseY;
 	public int mouseV = 1;
 	//balance player accumulates throught play state
-	public int balance = 10000;
+	public int balance = 50;
 	
 	//variable for auto shoot
 	public int autoShootV;
 	
 	//current round of game state
 	public int currentRound = 1;
+	
+	//shield variables
+	public int shieldX;
+	public int shieldXMV;
+	public int shieldHealth;
 	
 	//images
 	Image goodTank;
@@ -106,10 +113,12 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	Image tankSideShootRight;
 	Image tankSideShootLeft2;
 	Image tankSideShootRight2;
+	Image goodTankShield;
 	
 	Random rr = new Random();
 	
 	public void init(){
+		
 		//init for images
 		goodTank=getImage(getDocumentBase(), "goodTank.png");
 		goodBullet1=getImage(getDocumentBase(), "goodBullet1.png");
@@ -120,6 +129,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		tankSideShootRight=getImage(getDocumentBase(), "tankSideShoot.png");
 		tankSideShootLeft2=getImage(getDocumentBase(), "tankSideShoot2.png");
 		tankSideShootRight2=getImage(getDocumentBase(), "tankSideShoot2.png");
+		goodTankShield=getImage(getDocumentBase(), "shield.png");
 		
 		this.addMouseListener(this);
 		this.addKeyListener(this);
@@ -241,6 +251,25 @@ public class First extends JApplet implements MouseListener, KeyListener{
 				tankSideShootRightX -= goodBulletM + .03;
 			}
 			
+			//making shield move back and forth
+			
+			if(shieldHealth > 0){
+				
+				g.drawImage(goodTankShield, shieldX, 400, this);
+				
+			if(shieldX > 950){
+				shieldXMV = 0;
+			}
+			if(shieldX < 0){
+				shieldXMV = 1;
+			}
+			if(shieldXMV == 0){
+				shieldX--;
+			}
+			if(shieldXMV == 1){
+				shieldX++;
+			}
+			}
 			//good tank health
 			g.setColor(Color.gray);
 			g.fillRect(550, 675, 100, 25);
@@ -321,6 +350,10 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			g.drawString("Current : " + sideBulletDamage, 765, 310);
 			g.drawString("Cost : " + spreadBulletPrice, 765, 345);
 			
+			//strings for buying shield health
+			g.drawString("Buy Shield Health", 170, 475);
+			g.drawString("Current : " + shieldHealth, 170, 510);
+			g.drawString("Cost : " + shieldPrice, 170, 545);
 			//next round string
 			g.drawString("Next Round", 510, 640);
 		}
@@ -356,7 +389,6 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		mouseV = 0;
-		shopMouseDetection();
 		repaint();
 		//firing good tank bullet
 		if(stage == 1 && goodBulletV == 0){
@@ -437,6 +469,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			}
 			moveBadTank();
 			collisionDetectionInGame();
+			shopMouseDetection();
 			repaint();
 			
 		sleep(13);
@@ -511,7 +544,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		goodTankHitV = 0;
 	}
 	//collision between bad tank and good tank bullet
-	if(goodBulletX > badTankX-20 && goodBulletX < badTankX+87){
+	if(goodBulletX > badTankX-23 && goodBulletX < badTankX+93){
 		if(goodBulletY < 150 && goodBulletY > 25){
 			if(badTankHitV == 0){
 				goodBulletY-=250;
@@ -531,7 +564,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 				tankSideShootLeftY-=250;
 				badTankCurrentHealth-=sideBulletDamage;
 				badTankHitV=1;
-				balance+=12*goodBulletDamage;
+				balance+=12*sideBulletDamage;
 			}
 		}
 	}
@@ -542,7 +575,17 @@ public class First extends JApplet implements MouseListener, KeyListener{
 				tankSideShootRightY-=250;
 				badTankCurrentHealth-=sideBulletDamage;
 				badTankHitV=1;
-				balance+=12*goodBulletDamage;
+				balance+=12*sideBulletDamage;
+			}
+		}
+	}
+	//collision between shield and bad tank
+	if(badBulletX > shieldX && badBulletX < shieldX+300){
+		if(badBulletY > 420 && badBulletY < 450){
+			if(shieldHealth > 0){
+				shieldHealth-=1;
+				balance+=1;
+				badBulletY+=300;
 			}
 		}
 	}
@@ -576,7 +619,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 				if(MouseY > 50 && MouseY < 150){
 					if(balance >= bulletMovementPrice){
 						balance-=bulletMovementPrice;
-						goodBulletM+=.01;
+						goodBulletM+=.2;
 						bulletMovementPrice+=150;
 					}
 				}
@@ -597,7 +640,17 @@ public class First extends JApplet implements MouseListener, KeyListener{
 					if(balance >= spreadBulletPrice){
 						balance -= spreadBulletPrice;
 						sideBulletDamage++;
-						spreadBulletPrice+= 5000;
+						spreadBulletPrice+= 2500;
+					}
+				}
+			}
+			//buying shield
+			if(MouseX > 150 && MouseX < 400){
+				if(MouseY > 450 && MouseY < 550){
+					if(balance >= shieldPrice){
+						balance -= shieldPrice;
+						shieldPrice+=750;
+						shieldHealth += 5;
 					}
 				}
 			}
@@ -608,7 +661,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 					badTankMaxHealth += 2;
 					goodTankCurrentHealth = goodTankMaxHealth;
 					badTankCurrentHealth = badTankMaxHealth;
-					badBulletM += .01;
+					badBulletM += .1;
 					
 					//misc changes when next round starts
 					goodTankX = 700;
