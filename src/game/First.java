@@ -453,6 +453,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			}
 			//testing for game over state
 			if(badTankCurrentHealth <= 0){
+				goodBulletM = bulletPlaceHolder;
 				balance+=goodTankCurrentHealth;
 				balance+=currentRound;
 				shopCooldownClick = 75;
