@@ -867,7 +867,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 				goodTankCurrentHealth+=3;
 			}else if(goodTankCurrentHealth == goodTankMaxHealth-4){
 				goodTankCurrentHealth+=4;
-			}else if(goodTankCurrentHealth == goodTankMaxHealth-5 && goodTankCurrentHealth != goodTankMaxHealth){
+			}else if(goodTankCurrentHealth <= goodTankMaxHealth-5 && goodTankCurrentHealth != goodTankMaxHealth){
 				goodTankCurrentHealth+=5;
 			}
 		}
