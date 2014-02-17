@@ -142,7 +142,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	public int bulletStart;
 	public int bulletDirection;
 	public int bulletTimeLeft;
-	public int bulletPlaceHolder = 6;
+	public int bulletVV;
 	
 	//health power up
 	public int healthPowerUpX;
@@ -453,7 +453,10 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			}
 			//testing for game over state
 			if(badTankCurrentHealth <= 0){
-				goodBulletM = bulletPlaceHolder;
+			if(bulletVV == 1){
+				bulletVV = 0;
+				goodBulletM-=3;
+			}
 				balance+=goodTankCurrentHealth;
 				balance+=currentRound;
 				shopCooldownClick = 75;
@@ -850,8 +853,8 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	//collision between good tank and bullet speed power up
 	if(bulletPowerUpX > goodTankX-65 && bulletPowerUpX < goodTankX+130){
 		if(bulletPowerUpY > 520 && bulletPowerUpY < 600){
-			bulletPlaceHolder = (int) (Math.ceil(goodBulletM));
 			goodBulletM+=3;
+			bulletVV = 1;
 			bulletPowerUpY += 250;
 			bulletTimeLeft = 2500;
 		}
@@ -959,7 +962,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	}
 	   public void movingPowerUps(){
 		   //movement speed power up
-		   movementRandomV = rr.nextInt(10000);
+		   movementRandomV = rr.nextInt(100);
 		   if(movementRandomV == 1 && movementStart == 0){
 			   movementPowerUpY = -100;
 			   movementPowerUpX = rr.nextInt(1100);
@@ -984,7 +987,8 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		   }
 		   
 		   //bullet movement power up
-		  bulletRandomV = rr.nextInt(10000);
+		   if(bulletTimeLeft <= 0){
+		  bulletRandomV = rr.nextInt(100);
 		   if(bulletRandomV == 1 && bulletStart == 0){
 			   bulletPowerUpY = -100;
 			   bulletPowerUpX = rr.nextInt(1100);
@@ -1006,6 +1010,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			   if(bulletPowerUpY > 800){
 				   bulletStart = 0;
 			   }
+		   }
 		   }
 		   
 		   //health power up
@@ -1044,8 +1049,10 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		   //bullet movement power up
 		   if(bulletTimeLeft > 0){
 			   bulletTimeLeft -= 1;
-		   }else{
-			  goodBulletM = bulletPlaceHolder;
+		   }
+		   if(bulletTimeLeft == 1 && bulletVV == 1){
+			   goodBulletM-=3;
+			   bulletVV = 0;
 		   }
 	   }
 }
