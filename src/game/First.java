@@ -174,6 +174,10 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	Image badBullet3;
 	Image badBullet4;
 	Image healthPowerUp;
+	Image badTankSideShootLeft2;
+	Image badTankSideShootLeft3;
+	Image badTankSideShootRight2;
+	Image badTankSideShootRight3;
 	
 	Random rr = new Random();
 	
@@ -199,6 +203,10 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		badBullet3=getImage(getDocumentBase(), "badBullet3.png");
 		badBullet4=getImage(getDocumentBase(), "badBullet4.png");
 		healthPowerUp=getImage(getDocumentBase(), "healthPowerUp.png");
+		badTankSideShootLeft2=getImage(getDocumentBase(), "badTankSideShoot2.png");
+		badTankSideShootRight2=getImage(getDocumentBase(), "badTankSideShoot2.png");
+		badTankSideShootLeft3=getImage(getDocumentBase(), "badTankSideShoot3.png");
+		badTankSideShootRight3=getImage(getDocumentBase(), "badTankSideShoot3.png");
 		
 		this.addMouseListener(this);
 		this.addKeyListener(this);
@@ -279,13 +287,13 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			}
 			if(currentRound >= 12 && currentRound < 21){
 				badSideBulletDamage = 2;
-				g.drawImage(badTankSideShootLeft, badTankSideSLV2, badTankSideSLV, this);
-				g.drawImage(badTankSideShootRight, badTankSideSRV2, badTankSideSRV, this);
+				g.drawImage(badTankSideShootLeft2, badTankSideSLV2, badTankSideSLV, this);
+				g.drawImage(badTankSideShootRight2, badTankSideSRV2, badTankSideSRV, this);
 			}
 			if(currentRound >= 21){
 				badSideBulletDamage = 3;
-				g.drawImage(badTankSideShootLeft, badTankSideSLV2, badTankSideSLV, this);
-				g.drawImage(badTankSideShootRight, badTankSideSRV2, badTankSideSRV, this);
+				g.drawImage(badTankSideShootLeft3, badTankSideSLV2, badTankSideSLV, this);
+				g.drawImage(badTankSideShootRight3, badTankSideSRV2, badTankSideSRV, this);
 			}
 			//drawing bad tank 
 			g.drawImage(badTank, badTankX, 10, this);
@@ -962,7 +970,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	}
 	   public void movingPowerUps(){
 		   //movement speed power up
-		   movementRandomV = rr.nextInt(100);
+		   movementRandomV = rr.nextInt(10000);
 		   if(movementRandomV == 1 && movementStart == 0){
 			   movementPowerUpY = -100;
 			   movementPowerUpX = rr.nextInt(1100);
@@ -988,7 +996,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		   
 		   //bullet movement power up
 		   if(bulletTimeLeft <= 0){
-		  bulletRandomV = rr.nextInt(100);
+		  bulletRandomV = rr.nextInt(10000);
 		   if(bulletRandomV == 1 && bulletStart == 0){
 			   bulletPowerUpY = -100;
 			   bulletPowerUpX = rr.nextInt(1100);
