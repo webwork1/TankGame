@@ -951,7 +951,6 @@ public class First extends JApplet implements MouseListener, KeyListener{
 					//misc changes when next round starts
 					goodTankX = 700;
 					badTankX = 500;
-					bulletPlaceHolder = (int) (Math.ceil(goodBulletM));
 					currentRound++;
 					stage = 1;
 				}
