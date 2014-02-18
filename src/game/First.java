@@ -1116,7 +1116,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 				badBulletM = .08;
 				goodBulletM = .11;
 				badBulletAdderV = .01;
-				goodBulletVersion = .03;
+				goodBulletVersion = .3;
 				bulletAdderV = .02;
 				shieldTestV = 2;
 			}else{
