@@ -113,7 +113,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	public int MouseY;
 	public int mouseV = 1;
 	//balance player accumulates throught play state
-	public int balance = 300;
+	public int balance = 250;
 	
 	//variable for auto shoot
 	public int autoShootV;
@@ -160,6 +160,11 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	public double bulletAdderV;
 	public double badBulletAdderV;
 	public double goodBulletVersion;
+	public double shieldTestV;
+	public int shieldBV;
+	
+	//key movement variables
+	public int goodTankKeyMovement;
 	
 	//images
 	Image goodTank;
@@ -185,6 +190,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	Image badTankSideShootLeft3;
 	Image badTankSideShootRight2;
 	Image badTankSideShootRight3;
+	Image goodTankPlayer2;
 	
 	Random rr = new Random();
 	
@@ -214,6 +220,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		badTankSideShootRight2=getImage(getDocumentBase(), "badTankSideShoot2.png");
 		badTankSideShootLeft3=getImage(getDocumentBase(), "badTankSideShoot3.png");
 		badTankSideShootRight3=getImage(getDocumentBase(), "badTankSideShoot3.png");
+		goodTankPlayer2=getImage(getDocumentBase(), "goodTankPlayer2.png");
 		
 		this.addMouseListener(this);
 		this.addKeyListener(this);
@@ -431,11 +438,15 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			if(shieldX < 0){
 				shieldXMV = 1;
 			}
+			if(shieldBV == 1){
 			if(shieldXMV == 0){
-				shieldX--;
+				shieldX-=1;
 			}
 			if(shieldXMV == 1){
-				shieldX++;
+				shieldX+= 1;
+			}
+			}else{
+				shieldX = goodTankX - 85;
 			}
 			}
 			//good tank health
@@ -480,8 +491,6 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			if(goodTankCurrentHealth <= 0){
 				stage = 2;
 			}
-			g.drawString("" + bulletTestTimer, 200, 500);
-			
 			//POWER UPS
 			g.drawImage(movementPowerUp, movementPowerUpX, movementPowerUpY, this);
 			g.drawImage(bulletPowerUp, bulletPowerUpX, bulletPowerUpY, this);
@@ -553,7 +562,13 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			g.setColor(Color.yellow);
 			g.fillRect(150, 100, 150, 75);
 			g.setColor(Color.red);
-			g.drawString("Players : " + players, 175, 120);
+			g.drawString("Players : " + players, 175, 130);
+			
+			//making back to stage 1 code
+			g.setColor(Color.green);
+			g.fillRect(150, 600, 125, 50);
+			g.setColor(Color.yellow);
+			g.drawString("Back", 180, 630);
 			
 		}
 	}
@@ -562,15 +577,14 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	public void keyPressed(KeyEvent e) {
 		//moving good tank
 	if(e.getKeyCode() == KeyEvent.VK_LEFT){
-		goodTankX-=goodTankMovement;
-		keyMovementX = 50;
-		keyMovementY = 0;
+		goodTankKeyMovement = 1;
 
 	}
 	if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-		goodTankX+=goodTankMovement;
-		keyMovementY = 50;
-		keyMovementX = 0;
+		goodTankKeyMovement = -1;
+	}
+	if(e.getKeyCode() == KeyEvent.VK_DOWN){
+		goodTankKeyMovement = 0;
 	}
 	}
 	
@@ -588,6 +602,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		mouseV = 0;
+		mouseDetectionSettings();
 		repaint();
 		//firing good tank bullet
 		if(stage == 1 && goodBulletV == 0){
@@ -664,10 +679,10 @@ public class First extends JApplet implements MouseListener, KeyListener{
 				keyMovementY++;
 			}
 			if(goodTankX < 0){
-				goodTankX+=2 + goodTankMovement;
+				goodTankX+=5 + goodTankMovement;
 			}
 			if(goodTankX > 1100){
-				goodTankX-=2 + goodTankMovement;
+				goodTankX-=5 + goodTankMovement;
 			}
 			if(shopCooldownClick > 0){
 				shopCooldownClick--;
@@ -679,6 +694,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			powerUpTimeLeft();
 			repaint();
 			testingVersion();
+			keyTestingInGame();
 		sleep(13);
 		}catch(InterruptedException e){
 		e.printStackTrace();
@@ -872,7 +888,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			goodBulletM+=goodBulletVersion;
 			bulletVV = 1;
 			bulletPowerUpY += 250;
-			bulletTimeLeft = 2500;
+			bulletTimeLeft = 1750;
 		}
 	}
 	//collision between good tank and health power up
@@ -1060,7 +1076,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		   if(movementTimeLeft > 0){
 			   movementTimeLeft -= 1;
 		   }else{
-			   goodTankMovement = 2;
+			   goodTankMovement = 1;
 		   }
 		   //bullet movement power up
 		   if(bulletTimeLeft > 0){
@@ -1078,18 +1094,58 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		}
 		if(bulletTestTimer == 1){
 			if(badBY > 150){
-				badBulletM = .22;
-				goodBulletM = .27;
+				badBulletM = .08;
+				goodBulletM = .11;
 				badBulletAdderV = .01;
-				goodBulletVersion = .2;
+				goodBulletVersion = .015;
 				bulletAdderV = .02;
+				shieldTestV = 2;
 			}else{
 				badBulletM = 4;
 				goodBulletM = 6;
 				bulletAdderV = .2;
 				goodBulletVersion = 3;
 				badBulletAdderV = .1;
+				shieldTestV = 1;
 			}
 		}
+	}
+	
+	public void keyTestingInGame(){
+		if(goodTankKeyMovement == 1){
+			goodTankX-=goodTankMovement;
+			keyMovementX = 50;
+			keyMovementY = 0;
+		}
+		if(goodTankKeyMovement == -1){
+			goodTankX+=goodTankMovement;
+			keyMovementY = 50;
+			keyMovementX = 0;
+		}
+		if(goodTankKeyMovement == 0){
+			keyMovementX = 0;
+			keyMovementY = 0;
+		}
+	}
+	
+	public void mouseDetectionSettings(){
+		if(stage == 4){
+		//toggle players button
+		if(MouseX > 150 && MouseX < 300){
+			if(MouseY > 100 && MouseY < 175){
+				if(players == 1){
+					players = 2;
+				}else{
+					players = 1;
+				}
+			}
+		}
+		//back to main menu button
+		if(MouseX > 150 && MouseX < 275){
+			if(MouseY > 600 && MouseY < 650){
+				stage = 0;
+			}
+		}
+	}
 	}
 }
