@@ -586,6 +586,25 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	if(e.getKeyCode() == KeyEvent.VK_DOWN){
 		goodTankKeyMovement = 0;
 	}
+	if(e.getKeyCode() == KeyEvent.VK_SPACE){
+		if(stage == 1 && goodBulletV == 0){
+			goodBulletV = 1;
+			goodBulletY = 540;
+			goodBulletX = goodTankX+40;
+		}
+		if(stage == 1 && tankSideShootLeftV == 0){
+			tankSideShootLeftMV = 0;
+			tankSideShootLeftV = 1;
+			tankSideShootLeftX = goodTankX;
+			tankSideShootLeftY = 540;
+		}
+		if(stage == 1 && tankSideShootRightV == 0){
+			tankSideShootRightMV = 0;
+			tankSideShootRightV = 1;
+			tankSideShootRightX = goodTankX+75;
+			tankSideShootRightY = 540;
+		}
+	}
 	}
 	
 	@Override
