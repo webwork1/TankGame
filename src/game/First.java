@@ -220,7 +220,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		badTankSideShootRight2=getImage(getDocumentBase(), "badTankSideShoot2.png");
 		badTankSideShootLeft3=getImage(getDocumentBase(), "badTankSideShoot3.png");
 		badTankSideShootRight3=getImage(getDocumentBase(), "badTankSideShoot3.png");
-		goodTankPlayer2=getImage(getDocumentBase(), "goodTankPlayer2.png");
+		goodTankPlayer2=getImage(getDocumentBase(), "goodTankPlayer2 .png");
 		
 		this.addMouseListener(this);
 		this.addKeyListener(this);
@@ -1097,7 +1097,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 				badBulletM = .08;
 				goodBulletM = .11;
 				badBulletAdderV = .01;
-				goodBulletVersion = .015;
+				goodBulletVersion = .03;
 				bulletAdderV = .02;
 				shieldTestV = 2;
 			}else{
