@@ -269,7 +269,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			if(goodBulletDamage == 2){
 			g.drawImage(goodBullet2, goodBulletX, goodBY, this);
 			}
-			if(goodBulletDamage == 3){
+			if(goodBulletDamage >= 3){
 			g.drawImage(goodBullet3, goodBulletX, goodBY, this);
 			}
 			//drawing correct LEFT and RIGHT side bullet
