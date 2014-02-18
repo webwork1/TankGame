@@ -470,7 +470,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			if(badTankCurrentHealth <= 0){
 			if(bulletVV == 1){
 				bulletVV = 0;
-				goodBulletM-=3;
+				goodBulletM-=goodBulletVersion;
 			}
 				balance+=goodTankCurrentHealth;
 				balance+=currentRound;
@@ -869,7 +869,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	//collision between good tank and bullet speed power up
 	if(bulletPowerUpX > goodTankX-65 && bulletPowerUpX < goodTankX+130){
 		if(bulletPowerUpY > 520 && bulletPowerUpY < 600){
-			goodBulletM+=3;
+			goodBulletM+=goodBulletVersion;
 			bulletVV = 1;
 			bulletPowerUpY += 250;
 			bulletTimeLeft = 2500;
@@ -1004,7 +1004,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		   
 		   //bullet movement power up
 		   if(bulletTimeLeft <= 0){
-		  bulletRandomV = rr.nextInt(100);
+		  bulletRandomV = rr.nextInt(10000);
 		   if(bulletRandomV == 1 && bulletStart == 0){
 			   bulletPowerUpY = -100;
 			   bulletPowerUpX = rr.nextInt(1100);
@@ -1077,7 +1077,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			bulletTestTimer--;
 		}
 		if(bulletTestTimer == 1){
-			if(badBY > 200){
+			if(badBY > 150){
 				badBulletM = .22;
 				goodBulletM = .27;
 				badBulletAdderV = .01;
