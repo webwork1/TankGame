@@ -154,6 +154,13 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	//players in game
 	public int players = 1;
 	
+	//variables for testing mac of windows ( mostly to determine bullet speed )
+	public int bulletTestV;
+	public int bulletTestTimer = 5;
+	public double bulletAdderV;
+	public double badBulletAdderV;
+	public double goodBulletVersion;
+	
 	//images
 	Image goodTank;
 	Image goodBullet1;
@@ -473,6 +480,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			if(goodTankCurrentHealth <= 0){
 				stage = 2;
 			}
+			g.drawString("" + bulletTestTimer, 200, 500);
 			
 			//POWER UPS
 			g.drawImage(movementPowerUp, movementPowerUpX, movementPowerUpY, this);
@@ -670,7 +678,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			movingPowerUps();
 			powerUpTimeLeft();
 			repaint();
-			
+			testingVersion();
 		sleep(13);
 		}catch(InterruptedException e){
 		e.printStackTrace();
@@ -914,7 +922,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 				if(MouseY > 50 && MouseY < 150){
 					if(balance >= bulletMovementPrice){
 						balance-=bulletMovementPrice;
-						goodBulletM+=.2;
+						goodBulletM+=bulletAdderV;
 						bulletMovementPrice+=150;
 					}
 				}
@@ -957,7 +965,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 					goodTankCurrentHealth = goodTankMaxHealth;
 					shieldCurrentHealth = shieldMaxHealth;
 					badTankCurrentHealth = badTankMaxHealth;
-					badBulletM += .1;
+					badBulletM += badBulletAdderV;
 					
 					//misc changes when next round starts
 					goodTankX = 700;
@@ -996,7 +1004,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		   
 		   //bullet movement power up
 		   if(bulletTimeLeft <= 0){
-		  bulletRandomV = rr.nextInt(10000);
+		  bulletRandomV = rr.nextInt(100);
 		   if(bulletRandomV == 1 && bulletStart == 0){
 			   bulletPowerUpY = -100;
 			   bulletPowerUpX = rr.nextInt(1100);
@@ -1059,8 +1067,29 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			   bulletTimeLeft -= 1;
 		   }
 		   if(bulletTimeLeft == 1 && bulletVV == 1){
-			   goodBulletM-=3;
+			   goodBulletM-=goodBulletVersion;
 			   bulletVV = 0;
 		   }
 	   }
+	   
+	public void testingVersion(){
+		if(bulletTestTimer > 0){
+			bulletTestTimer--;
+		}
+		if(bulletTestTimer == 1){
+			if(badBY > 200){
+				badBulletM = .22;
+				goodBulletM = .27;
+				badBulletAdderV = .01;
+				goodBulletVersion = .2;
+				bulletAdderV = .02;
+			}else{
+				badBulletM = 4;
+				goodBulletM = 6;
+				bulletAdderV = .2;
+				goodBulletVersion = 3;
+				badBulletAdderV = .1;
+			}
+		}
+	}
 }
