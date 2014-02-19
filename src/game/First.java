@@ -154,6 +154,9 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	//players in game
 	public int players = 1;
 	
+	//int for pausing
+	public int pause = 0;
+	
 	//variables for testing mac of windows ( mostly to determine bullet speed )
 	public int bulletTestV;
 	public int bulletTestTimer = 5;
@@ -249,6 +252,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			break;
 		
 		case 1:
+			if(pause == 0){
 			//starting update function
 			if(UpdateV == 0){
 				update();
@@ -495,6 +499,10 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			g.drawImage(movementPowerUp, movementPowerUpX, movementPowerUpY, this);
 			g.drawImage(bulletPowerUp, bulletPowerUpX, bulletPowerUpY, this);
 			g.drawImage(healthPowerUp, healthPowerUpX, healthPowerUpY, this);
+			}else{
+				g.setColor(Color.BLACK);
+				g.drawString("Paused", 500, 300);
+			}
 			break;
 		
 		case 2:
@@ -585,6 +593,14 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	}
 	if(e.getKeyCode() == KeyEvent.VK_DOWN){
 		goodTankKeyMovement = 0;
+	}
+	if(e.getKeyCode() == KeyEvent.VK_P){
+		if(pause == 1){
+			pause = 0;
+		}else{
+			pause = 1;
+		}
+		
 	}
 	if(e.getKeyCode() == KeyEvent.VK_SPACE){
 		if(stage == 1 && goodBulletV == 0){
@@ -688,7 +704,8 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		public void run(){
 		for(int counter = 1; 1 < 2; counter++){
 		try{
-			//making good tank move properly with key listener
+			if(stage == 1 && pause == 0){
+			//making good tank move pro{perly with key listener
 			if(keyMovementX < 50){
 				goodTankX+=goodTankMovement;
 				keyMovementX++;
@@ -714,6 +731,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			repaint();
 			testingVersion();
 			keyTestingInGame();
+		}
 		sleep(13);
 		}catch(InterruptedException e){
 		e.printStackTrace();
@@ -896,23 +914,26 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	//collision between good tank and movement speed power up
 	if(movementPowerUpX > goodTankX-65 && movementPowerUpX < goodTankX+130){
 		if(movementPowerUpY > 520 && movementPowerUpY < 600){
+			balance+=50;
 			goodTankMovement=5;
 			movementPowerUpY += 250;
-			movementTimeLeft = 2500;
+			movementTimeLeft = 1750;
 		}
 	}
 	//collision between good tank and bullet speed power up
 	if(bulletPowerUpX > goodTankX-65 && bulletPowerUpX < goodTankX+130){
 		if(bulletPowerUpY > 520 && bulletPowerUpY < 600){
+			balance+=50;
 			goodBulletM+=goodBulletVersion;
 			bulletVV = 1;
 			bulletPowerUpY += 250;
-			bulletTimeLeft = 1750;
+			bulletTimeLeft = 2500;
 		}
 	}
 	//collision between good tank and health power up
 	if(healthPowerUpX > goodTankX-65 && healthPowerUpX < goodTankX+130){
 		if(healthPowerUpY > 520 && healthPowerUpY < 600){
+			balance+=50;
 			healthPowerUpY += 250;
 			if(goodTankCurrentHealth == goodTankMaxHealth-1){
 				goodTankCurrentHealth++;
