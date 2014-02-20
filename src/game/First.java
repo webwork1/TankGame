@@ -595,10 +595,12 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		goodTankKeyMovement = 0;
 	}
 	if(e.getKeyCode() == KeyEvent.VK_P){
+		if(stage == 1){
 		if(pause == 1){
 			pause = 0;
 		}else{
 			pause = 1;
+		}
 		}
 		
 	}
@@ -704,7 +706,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		public void run(){
 		for(int counter = 1; 1 < 2; counter++){
 		try{
-			if(stage == 1 && pause == 0){
+			if(pause == 0){
 			//making good tank move pro{perly with key listener
 			if(keyMovementX < 50){
 				goodTankX+=goodTankMovement;
