@@ -23,7 +23,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	public int shopCooldownClick;
 	
 	//good tank variables
-	public int goodTankX;
+	public int goodTankX = 500;
 	public int goodTankMovement = 2;
 	
 	//good tank bullet variables
@@ -169,21 +169,62 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	//key movement variables
 	public int goodTankKeyMovement;
 	
-	//images
+	//player 2 stuff
+	public int goodTankPlayer2X = 700;
+	public int goodTank2KeyMovement = 2;
+	public int keyMovement2X;
+	public int keyMovement2Y;
+	
+		public double tank2SideShootLeftX;
+		public double tank2SideShootLeftY = -200;
+		public int tank2SideSLV;
+		public int tank2SideSLV2;
+		public int tank2SideShootLeftV;
+		public int tank2SideShootLeftMV;
+		
+		public double tank2SideShootRightX;
+		public double tank2SideShootRightY = -200;
+		public int tank2SideSRV;
+		public int tank2SideSRV2;
+		public int tank2SideShootRightV;
+		public int tank2SideShootRightMV;
+		
+		public int good2BulletV;
+		public double good2BulletY;
+		public int good2BY = -200;
+		public int good2BulletX;
+		
+		public int good2TankMaxHealth = 10;
+		public int good2TankCurrentHealth = 10;
+		public int good2TankHitV;
+	
+
+	//images for good tank 1
 	Image goodTank;
 	Image goodBullet1;
-	Image badTank;
-	Image badBullet1;
 	Image goodBullet2;
 	Image tankSideShootLeft;
 	Image tankSideShootRight;
 	Image tankSideShootLeft2;
 	Image tankSideShootRight2;
+	Image goodBullet3;
+	
+	//images for good tank 2
+	Image goodTankPlayer2;
+	Image good2Bullet1;
+	Image good2Bullet2;
+	Image tank2SideShootLeft;
+	Image tank2SideShootRight;
+	Image tank2SideShootLeft2;
+	Image tank2SideShootRight2;
+	Image good2Bullet3;
+	
+	Image badTank;
+	Image badBullet1;
 	Image goodTankShield;
 	Image badTankSideShootLeft;
 	Image badTankSideShootRight;
 	Image badBullet2;
-	Image goodBullet3;
 	Image movementPowerUp;
 	Image bulletPowerUp;
 	Image badBullet3;
@@ -193,27 +234,28 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	Image badTankSideShootLeft3;
 	Image badTankSideShootRight2;
 	Image badTankSideShootRight3;
-	Image goodTankPlayer2;
 	
 	Random rr = new Random();
 	
 	public void init(){
 		
 		//init for images
+		//pics for good tank 2 ( player 1 )
 		goodTank=getImage(getDocumentBase(), "goodTank.png");
 		goodBullet1=getImage(getDocumentBase(), "goodBullet1.png");
-		badTank=getImage(getDocumentBase(), "badTank.png");
-		badBullet1=getImage(getDocumentBase(), "badBullet1.png");
 		goodBullet2=getImage(getDocumentBase(), "goodBullet2.png");
 		tankSideShootLeft=getImage(getDocumentBase(), "tankSideShoot.png");
 		tankSideShootRight=getImage(getDocumentBase(), "tankSideShoot.png");
 		tankSideShootLeft2=getImage(getDocumentBase(), "tankSideShoot2.png");
 		tankSideShootRight2=getImage(getDocumentBase(), "tankSideShoot2.png");
+		goodBullet3=getImage(getDocumentBase(), "goodBullet3.png");
+		
+		badTank=getImage(getDocumentBase(), "badTank.png");
+		badBullet1=getImage(getDocumentBase(), "badBullet1.png");
 		goodTankShield=getImage(getDocumentBase(), "shield.png");
 		badTankSideShootLeft=getImage(getDocumentBase(), "badTankSideShoot.png");
 		badTankSideShootRight=getImage(getDocumentBase(), "badTankSideShoot.png");
 		badBullet2=getImage(getDocumentBase(), "badBullet2.png");
-		goodBullet3=getImage(getDocumentBase(), "goodBullet3.png");
 		movementPowerUp=getImage(getDocumentBase(), "movementPowerUp.png");
 		bulletPowerUp=getImage(getDocumentBase(), "bulletPowerUp.png");
 		badBullet3=getImage(getDocumentBase(), "badBullet3.png");
@@ -223,7 +265,16 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		badTankSideShootRight2=getImage(getDocumentBase(), "badTankSideShoot2.png");
 		badTankSideShootLeft3=getImage(getDocumentBase(), "badTankSideShoot3.png");
 		badTankSideShootRight3=getImage(getDocumentBase(), "badTankSideShoot3.png");
-		goodTankPlayer2=getImage(getDocumentBase(), "goodTankPlayer2 .png");
+		
+		//pics for good tank 2 ( player 2 )
+		 goodTankPlayer2=getImage(getDocumentBase(), "goodTankPlayer2.png");
+		 good2Bullet1=getImage(getDocumentBase(), "goodBullet1.png");
+		 good2Bullet2=getImage(getDocumentBase(), "goodBullet2.png");
+		 tank2SideShootLeft=getImage(getDocumentBase(), "tankSideShoot.png");
+		 tank2SideShootRight=getImage(getDocumentBase(), "tankSideShoot.png");
+		 tank2SideShootLeft2=getImage(getDocumentBase(), "tankSideShoot2.png");
+		 tank2SideShootRight2=getImage(getDocumentBase(), "tankSideShoot2.png");
+		 good2Bullet3=getImage(getDocumentBase(), "goodBullet3.png");
 		
 		this.addMouseListener(this);
 		this.addKeyListener(this);
@@ -237,6 +288,11 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		switch(stage){
 		
 		case 0:
+			//starting update function
+			if(UpdateV == 0){
+				update();
+				UpdateV++;
+				}
 			//start screen
 			g.setColor(Color.CYAN);
 			g.fillRect(0, 0, 1200, 700);
@@ -253,18 +309,58 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		
 		case 1:
 			if(pause == 0){
-			//starting update function
-			if(UpdateV == 0){
-				update();
-				UpdateV++;
-				}
+			//player 2 tank stuff
 			//game (playing) state
 			g.setColor(Color.ORANGE);
 			g.fillRect(0, 0, 1200, 700);
 			g.drawImage(goodTank, goodTankX,550,this);
 			g.setColor(Color.red);
 			
-			//drawing correct good bullet
+			//BEGIN PLAYER 2 STUFF
+			if(players == 2){
+				g.drawImage(goodTankPlayer2, goodTankPlayer2X, 550, this);
+				if(goodBulletDamage == 1){
+					g.drawImage(good2Bullet1, good2BulletX, good2BY, this);
+					}else{
+						g.drawImage(good2Bullet1, -100, -100, this);
+					}
+					if(goodBulletDamage == 2){
+					g.drawImage(good2Bullet2, good2BulletX, good2BY, this);
+					}
+					if(goodBulletDamage >= 3){
+					g.drawImage(good2Bullet3, good2BulletX, good2BY, this);
+					}
+					
+					if(sideBulletDamage == 1){
+						g.drawImage(tank2SideShootLeft, tank2SideSLV2, tank2SideSLV, this);
+						g.drawImage(tank2SideShootRight, tank2SideSRV2, tank2SideSRV, this);
+					
+					}else{
+						g.drawImage(tank2SideShootLeft, -100, -100, this);
+						g.drawImage(tank2SideShootRight, -100, -100, this);
+					
+					}
+					if(sideBulletDamage >= 2){				
+						g.drawImage(tank2SideShootLeft2, tank2SideSLV2, tank2SideSLV, this);
+						g.drawImage(tank2SideShootRight2, tank2SideSRV2, tank2SideSRV, this);
+					}
+					
+					if(good2BulletV == 1){
+						good2BulletY-=goodBulletM;
+						good2BY = (int) (Math.ceil(good2BulletY));
+					}
+					if(good2BY < -250){
+						good2BulletV = 0;
+					}
+					
+					g.setColor(Color.gray);
+					g.fillRect(350, 675, 100, 25);
+		 			g.setColor(Color.blue);
+					g.fillRect(350, 675, good2TankCurrentHealth*100/good2TankMaxHealth, 25);
+					g.setColor(Color.black);
+					g.drawString(good2TankCurrentHealth + " / " + good2TankMaxHealth, 360, 695);
+			}
+			//PLAYER 2 STUFF END
 			if(goodBulletDamage == 1){
 			g.drawImage(goodBullet1, goodBulletX, goodBY, this);
 			}else{
@@ -388,6 +484,43 @@ public class First extends JApplet implements MouseListener, KeyListener{
 				tankSideShootRightX -= goodBulletM + .03;
 			}
 			
+			//PLAYER 2 
+			if(tank2SideShootLeftV == 1){
+				tank2SideShootLeftY -= goodBulletM;
+				tank2SideSLV2 =(int) (Math.ceil(tank2SideShootLeftX));
+				tank2SideSLV = (int) (Math.ceil(tank2SideShootLeftY));
+			}
+			if(tank2SideShootLeftY < -250){
+				tank2SideShootLeftV = 0;
+			}
+			if(tank2SideShootLeftX <= 0){
+				tank2SideShootLeftMV = 1;
+				
+			}
+			if(tank2SideShootLeftMV == 0){
+				tank2SideShootLeftX -= goodBulletM + .03;
+			}else{
+				tank2SideShootLeftX += goodBulletM - .03;
+			}
+			
+			if(tank2SideShootRightV == 1){
+				tank2SideShootRightY -= goodBulletM;
+				tank2SideSRV2 =(int) (Math.ceil(tank2SideShootRightX));
+				tank2SideSRV = (int) (Math.ceil(tank2SideShootRightY));
+			}
+			if(tank2SideShootRightY < -250){
+				tank2SideShootRightV = 0;
+			}
+			if(tank2SideShootRightX > 1200){
+				tank2SideShootRightMV = 1;
+				
+			}
+			if(tank2SideShootRightMV == 0){
+				tank2SideShootRightX += goodBulletM - .03;
+			}else{
+				tank2SideShootRightX -= goodBulletM + .03;
+			}
+			
 			// BAD tank LEFT side shoot
 			if(badTankSideShootLeftV == 1){
 				badTankSideShootLeftY += badBulletM;
@@ -442,7 +575,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			if(shieldX < 0){
 				shieldXMV = 1;
 			}
-			if(shieldBV == 1){
+			if(shieldTestV == 1){
 			if(shieldXMV == 0){
 				shieldX-=1;
 			}
@@ -493,6 +626,9 @@ public class First extends JApplet implements MouseListener, KeyListener{
 				stage = 3;
 			}
 			if(goodTankCurrentHealth <= 0){
+				stage = 2;
+			}
+			if(good2TankCurrentHealth <=2 && players == 2){
 				stage = 2;
 			}
 			//POWER UPS
@@ -583,7 +719,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		//moving good tank
+		//moving good tank 1
 	if(e.getKeyCode() == KeyEvent.VK_LEFT){
 		goodTankKeyMovement = 1;
 
@@ -594,12 +730,23 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	if(e.getKeyCode() == KeyEvent.VK_DOWN){
 		goodTankKeyMovement = 0;
 	}
+	//moving player 2
+	if(e.getKeyCode() == KeyEvent.VK_A){
+		goodTank2KeyMovement = 1;
+	}
+	if(e.getKeyCode() == KeyEvent.VK_D){
+		goodTank2KeyMovement = -1;
+	}
+	if(e.getKeyCode() == KeyEvent.VK_S){
+		goodTank2KeyMovement = 0;
+	}
 	if(e.getKeyCode() == KeyEvent.VK_P){
 		if(stage == 1){
 		if(pause == 1){
 			pause = 0;
 		}else{
 			pause = 1;
+			repaint();
 		}
 		}
 		
@@ -623,6 +770,25 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			tankSideShootRightY = 540;
 		}
 	}
+	if(e.getKeyCode() == KeyEvent.VK_SHIFT){
+		if(stage == 1 && good2BulletV == 0){
+			good2BulletV = 1;
+			good2BulletY = 540;
+			good2BulletX = goodTankPlayer2X+40;
+		}
+		if(stage == 1 && tank2SideShootLeftV == 0){
+			tank2SideShootLeftMV = 0;
+			tank2SideShootLeftV = 1;
+			tank2SideShootLeftX = goodTankPlayer2X;
+			tank2SideShootLeftY = 540;
+		}
+		if(stage == 1 && tank2SideShootRightV == 0){
+			tank2SideShootRightMV = 0;
+			tank2SideShootRightV = 1;
+			tank2SideShootRightX = goodTankPlayer2X+75;
+			tank2SideShootRightY = 540;
+		}
+	}
 	}
 	
 	@Override
@@ -639,7 +805,6 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		mouseV = 0;
-		mouseDetectionSettings();
 		repaint();
 		//firing good tank bullet
 		if(stage == 1 && goodBulletV == 0){
@@ -707,14 +872,15 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		for(int counter = 1; 1 < 2; counter++){
 		try{
 			if(pause == 0){
-			//making good tank move pro{perly with key listener
+				if(stage != 4){
+			//making good tank move properly with key listener
 			if(keyMovementX < 50){
 				goodTankX+=goodTankMovement;
-				keyMovementX++;
+				keyMovementX=50;
 			}
 			if(keyMovementY < 50){
 				goodTankX-=goodTankMovement;
-				keyMovementY++;
+				keyMovementY=50;
 			}
 			if(goodTankX < 0){
 				goodTankX+=5 + goodTankMovement;
@@ -722,6 +888,24 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			if(goodTankX > 1100){
 				goodTankX-=5 + goodTankMovement;
 			}
+			
+			//making good tank 2 move properly with key listener
+			
+			if(keyMovement2X < 50){
+				goodTankPlayer2X+=goodTankMovement;
+				keyMovement2X=50;
+			}
+			if(keyMovement2Y < 50){
+				goodTankPlayer2X-=goodTankMovement;
+				keyMovement2Y=50;
+			}
+			if(goodTankPlayer2X < 0){
+				goodTankPlayer2X+=5 + goodTankMovement;
+			}
+			if(goodTankPlayer2X > 1100){
+				goodTankPlayer2X-=5 + goodTankMovement;
+			}
+			
 			if(shopCooldownClick > 0){
 				shopCooldownClick--;
 			}
@@ -733,6 +917,9 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			repaint();
 			testingVersion();
 			keyTestingInGame();
+				}else{
+			mouseDetectionSettings();
+				}
 		}
 		sleep(13);
 		}catch(InterruptedException e){
@@ -802,6 +989,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			tankSideShootRightX  = goodTankX+75;
 			tankSideShootRightV = 1;
 		}
+		//PLAYER 2 STUFF
 	}
 	
 	public void collisionDetectionInGame(){
@@ -950,6 +1138,126 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			}
 		}
 	}
+	
+	//PLAYER 2 COLLISION DETECTION STUFF
+	
+	//collision between good tank PLAYER 2 and bad tank bullet
+	if(badBulletX >goodTankPlayer2X-20 && badBulletX < goodTankPlayer2X+80){
+		if(badBulletY >550 && badBulletY < 600){
+			if(good2TankHitV == 0){
+		badBulletY+=150;
+		good2TankCurrentHealth-=badBulletDamage;
+		good2TankHitV = 1;
+			}
+		}
+	}
+if(badBulletY < 300){
+	goodTankHitV = 0;
+}
+//collision between bad tank and good tank PLAYER 2 bullet
+if(good2BulletX > badTankX-23 && good2BulletX < badTankX+95){
+	if(good2BulletY < 150 && good2BulletY > 25){
+		if(badTankHitV == 0){
+			good2BulletY-=250;
+			badTankCurrentHealth-=goodBulletDamage;
+			badTankHitV = 1;
+			balance+=15*goodBulletDamage;
+		}
+	}
+}
+if(good2BulletY < -10){
+	badTankHitV = 0;
+}
+
+//collision between good tank PLAYER 2 bullet LEFT and bad tank
+if(tank2SideShootLeftX > badTankX-20 && tank2SideShootLeftX < badTankX+87){
+	if(tank2SideShootLeftY < 150 && tank2SideShootLeftY > 25){
+		if(badTankHitV == 0){
+			tank2SideShootLeftY-=250;
+			badTankCurrentHealth-=sideBulletDamage;
+			badTankHitV=1;
+			balance+=15*sideBulletDamage;
+		}
+	}
+}
+//collision between good tank PLAYER 2 bullet RIGHT and bad tank
+if(tank2SideShootRightX > badTankX-20 && tank2SideShootRightX < badTankX+87){
+	if(tank2SideShootRightY < 150 && tank2SideShootRightY > 25){
+		if(badTankHitV == 0){
+			tank2SideShootRightY-=250;
+			badTankCurrentHealth-=sideBulletDamage;
+			badTankHitV=1;
+			balance+=15*sideBulletDamage;
+		}
+	}
+}
+
+//collision between bad tank bullet RIGHT and good tank PLAYER 2
+if(badTankSideShootRightX > goodTankPlayer2X-25 && badTankSideShootRightX < goodTankPlayer2X+110){
+	if(badTankSideShootRightY >  550 && badTankSideShootRightY < 600){
+		if(goodTankHitVR == 0){
+			badTankSideShootRightY += 250;
+			good2TankCurrentHealth -= badSideBulletDamage;
+			goodTankHitVR = 1;
+			
+		}
+	}
+}
+if(badTankSideShootRightY < 400){
+	goodTankHitVR = 0;
+}
+//collision between bad tank bullet LEFT and good tank PLAYER 2
+if(badTankSideShootLeftX > goodTankPlayer2X-25 && badTankSideShootLeftX < goodTankPlayer2X+110){
+if(badTankSideShootLeftY >  550 && badTankSideShootLeftY < 600){
+	if(goodTankHitVL == 0){
+		badTankSideShootLeftY += 250;
+		good2TankCurrentHealth -= badSideBulletDamage;
+		goodTankHitVL = 1;
+	}
+}
+}
+if(badTankSideShootLeftY < 400){
+goodTankHitVL = 0;
+}
+
+//collision between good tank and movement speed power up PLAYER 2 
+if(movementPowerUpX > goodTankPlayer2X-65 && movementPowerUpX < goodTankPlayer2X+130){
+	if(movementPowerUpY > 520 && movementPowerUpY < 600){
+		balance+=50;
+		goodTankMovement=5;
+		movementPowerUpY += 250;
+		movementTimeLeft = 1750;
+	}
+}
+//collision between good tank and bullet speed power up PLAYER 2
+if(bulletPowerUpX > goodTankPlayer2X-65 && bulletPowerUpX < goodTankPlayer2X+130){
+	if(bulletPowerUpY > 520 && bulletPowerUpY < 600){
+		balance+=50;
+		goodBulletM+=goodBulletVersion;
+		bulletVV = 1;
+		bulletPowerUpY += 250;
+		bulletTimeLeft = 2500;
+	}
+}
+//collision between good tank and health power up PLAYER 2
+if(healthPowerUpX > goodTankPlayer2X-65 && healthPowerUpX < goodTankPlayer2X+130){
+	if(healthPowerUpY > 520 && healthPowerUpY < 600){
+		balance+=50;
+		healthPowerUpY += 250;
+		if(good2TankCurrentHealth == good2TankMaxHealth-1){
+			good2TankCurrentHealth++;
+		}else if(good2TankCurrentHealth == good2TankMaxHealth-2){
+			good2TankCurrentHealth+=2;
+		}else if(good2TankCurrentHealth == good2TankMaxHealth-3){
+			good2TankCurrentHealth+=3;
+		}else if(good2TankCurrentHealth == good2TankMaxHealth-4){
+			good2TankCurrentHealth+=4;
+		}else if(good2TankCurrentHealth <= good2TankMaxHealth-5 && good2TankCurrentHealth != good2TankMaxHealth){
+			good2TankCurrentHealth+=5;
+		}
+	}
+}
+	
 	}
 	
 	/*
@@ -971,7 +1279,8 @@ public class First extends JApplet implements MouseListener, KeyListener{
 					if(balance >= healthPrice){
 						balance-=healthPrice;
 						goodTankMaxHealth++;
-						healthPrice+=50;
+						good2TankMaxHealth++;
+						healthPrice+=50*players;
 					}
 				}
 			}
@@ -981,7 +1290,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 					if(balance >= bulletMovementPrice){
 						balance-=bulletMovementPrice;
 						goodBulletM+=bulletAdderV;
-						bulletMovementPrice+=150;
+						bulletMovementPrice+=150*players;
 					}
 				}
 			}
@@ -991,7 +1300,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 					if(balance >= bulletDamagePrice){
 						balance -= bulletDamagePrice;
 						goodBulletDamage++;
-						bulletDamagePrice += 2000;
+						bulletDamagePrice += 2000*players;
 					}
 				}
 			}
@@ -1001,7 +1310,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 					if(balance >= spreadBulletPrice){
 						balance -= spreadBulletPrice;
 						sideBulletDamage++;
-						spreadBulletPrice+= 2500;
+						spreadBulletPrice+= 2500*players;
 					}
 				}
 			}
@@ -1010,7 +1319,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 				if(MouseY > 450 && MouseY < 550){
 					if(balance >= shieldPrice){
 						balance -= shieldPrice;
-						shieldPrice+=750;
+						shieldPrice+=750*players;
 						shieldMaxHealth += 15;
 					}
 				}
@@ -1023,6 +1332,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 					goodTankCurrentHealth = goodTankMaxHealth;
 					shieldCurrentHealth = shieldMaxHealth;
 					badTankCurrentHealth = badTankMaxHealth;
+					good2TankCurrentHealth = good2TankMaxHealth;
 					badBulletM += badBulletAdderV;
 					
 					//misc changes when next round starts
@@ -1164,9 +1474,15 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			keyMovementY = 50;
 			keyMovementX = 0;
 		}
-		if(goodTankKeyMovement == 0){
-			keyMovementX = 0;
-			keyMovementY = 0;
+		if(goodTank2KeyMovement == 1){
+			goodTankPlayer2X-=goodTankMovement;
+			keyMovement2Y = 0;
+			keyMovement2X = 50;
+		}
+		if(goodTank2KeyMovement == -1){
+			goodTankPlayer2X+=goodTankMovement;
+			keyMovement2Y = 50;
+			keyMovement2X = 0;
 		}
 	}
 	
