@@ -115,9 +115,6 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	//balance player accumulates throught play state
 	public int balance = 250;
 	
-	//variable for auto shoot
-	public int autoShootV;
-	
 	//current round of game state
 	public int currentRound = 1;
 	
@@ -241,7 +238,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		
 		//init for images
 		//pics for good tank 2 ( player 1 )
-		goodTank=getImage(getDocumentBase(), "goodTank.png");
+		goodTank=getImage(getDocumentBase(), "updatedGoodTank.png");
 		goodBullet1=getImage(getDocumentBase(), "goodBullet1.png");
 		goodBullet2=getImage(getDocumentBase(), "goodBullet2.png");
 		tankSideShootLeft=getImage(getDocumentBase(), "tankSideShoot.png");
@@ -267,7 +264,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		badTankSideShootRight3=getImage(getDocumentBase(), "badTankSideShoot3.png");
 		
 		//pics for good tank 2 ( player 2 )
-		 goodTankPlayer2=getImage(getDocumentBase(), "goodTankPlayer2.png");
+		 goodTankPlayer2=getImage(getDocumentBase(), "updatedgoodTankPlayer2.png");
 		 good2Bullet1=getImage(getDocumentBase(), "goodBullet1.png");
 		 good2Bullet2=getImage(getDocumentBase(), "goodBullet2.png");
 		 tank2SideShootLeft=getImage(getDocumentBase(), "tankSideShoot.png");
@@ -793,7 +790,6 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	
 	@Override
 	public void keyReleased(KeyEvent e) {
-		
 	}
 
 	@Override
@@ -804,6 +800,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		mouseDetectionSettings();
 		mouseV = 0;
 		repaint();
 		//firing good tank bullet
@@ -839,6 +836,23 @@ public class First extends JApplet implements MouseListener, KeyListener{
 				stage = 4;
 			}
 		}
+		if(stage == 4){
+			if(x > 150 && x < 300){
+				if(y > 100 && y < 175){
+					if(players == 1){
+						players = 2;
+					}else{
+						players = 1;
+					}
+				}
+			}
+			//back to main menu button
+			if(x > 150 && x < 275){
+				if(y > 600 && y < 650){
+					stage = 0;
+				}
+			}
+		}
 		
 	}
 
@@ -856,12 +870,12 @@ public class First extends JApplet implements MouseListener, KeyListener{
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		autoShootV = 1;
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		autoShootV = 0;
+	public void mouseReleased(MouseEvent e) {
+		int x = e.getX();
+		int y = e.getY();
 		
 	}
 	
@@ -918,7 +932,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			testingVersion();
 			keyTestingInGame();
 				}else{
-			mouseDetectionSettings();
+					mouseDetectionSettings();
 				}
 		}
 		sleep(13);
@@ -971,31 +985,13 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			badTankSideShootRightX = badTankX+100;
 			badTankSideShootRightY = 100;
 		}
-		//making good tank  side shoot and bullet shoot
-		if(stage == 1 && goodBulletV == 0 && autoShootV == 1){
-			goodBulletV = 1;
-			goodBulletY = 540;
-			goodBulletX = goodTankX+40;
-		}
-		if(stage == 1 && tankSideShootLeftV == 0 && autoShootV == 1){
-			tankSideShootLeftMV = 0;
-			tankSideShootLeftY = 540;
-			tankSideShootLeftX  = goodTankX;
-			tankSideShootLeftV = 1;
-		}
-		if(stage == 1 && tankSideShootRightV == 0 && autoShootV == 1){
-			tankSideShootRightMV = 0;
-			tankSideShootRightY = 540;
-			tankSideShootRightX  = goodTankX+75;
-			tankSideShootRightV = 1;
-		}
 		//PLAYER 2 STUFF
 	}
 	
 	public void collisionDetectionInGame(){
 		//collision between good tank and bad tank bullet
-		if(badBulletX >goodTankX-20 && badBulletX < goodTankX+80){
-			if(badBulletY >550 && badBulletY < 600){
+		if(badBulletX >goodTankX-25 && badBulletX < goodTankX+85){
+			if(badBulletY > 550 && badBulletY < 600){
 				if(goodTankHitV == 0){
 			badBulletY+=150;
 			goodTankCurrentHealth-=badBulletDamage;
@@ -1142,7 +1138,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	//PLAYER 2 COLLISION DETECTION STUFF
 	
 	//collision between good tank PLAYER 2 and bad tank bullet
-	if(badBulletX >goodTankPlayer2X-20 && badBulletX < goodTankPlayer2X+80){
+	if(badBulletX >goodTankPlayer2X-25 && badBulletX < goodTankPlayer2X+85){
 		if(badBulletY >550 && badBulletY < 600){
 			if(good2TankHitV == 0){
 		badBulletY+=150;
@@ -1152,7 +1148,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		}
 	}
 if(badBulletY < 300){
-	goodTankHitV = 0;
+	good2TankHitV = 0;
 }
 //collision between bad tank and good tank PLAYER 2 bullet
 if(good2BulletX > badTankX-23 && good2BulletX < badTankX+95){
@@ -1280,7 +1276,7 @@ if(healthPowerUpX > goodTankPlayer2X-65 && healthPowerUpX < goodTankPlayer2X+130
 						balance-=healthPrice;
 						goodTankMaxHealth++;
 						good2TankMaxHealth++;
-						healthPrice+=50*players;
+						healthPrice+=50;
 					}
 				}
 			}
@@ -1290,7 +1286,7 @@ if(healthPowerUpX > goodTankPlayer2X-65 && healthPowerUpX < goodTankPlayer2X+130
 					if(balance >= bulletMovementPrice){
 						balance-=bulletMovementPrice;
 						goodBulletM+=bulletAdderV;
-						bulletMovementPrice+=150*players;
+						bulletMovementPrice+=150;
 					}
 				}
 			}
@@ -1300,7 +1296,7 @@ if(healthPowerUpX > goodTankPlayer2X-65 && healthPowerUpX < goodTankPlayer2X+130
 					if(balance >= bulletDamagePrice){
 						balance -= bulletDamagePrice;
 						goodBulletDamage++;
-						bulletDamagePrice += 2000*players;
+						bulletDamagePrice += 2000;
 					}
 				}
 			}
@@ -1310,7 +1306,7 @@ if(healthPowerUpX > goodTankPlayer2X-65 && healthPowerUpX < goodTankPlayer2X+130
 					if(balance >= spreadBulletPrice){
 						balance -= spreadBulletPrice;
 						sideBulletDamage++;
-						spreadBulletPrice+= 2500*players;
+						spreadBulletPrice+= 2500;
 					}
 				}
 			}
@@ -1319,7 +1315,7 @@ if(healthPowerUpX > goodTankPlayer2X-65 && healthPowerUpX < goodTankPlayer2X+130
 				if(MouseY > 450 && MouseY < 550){
 					if(balance >= shieldPrice){
 						balance -= shieldPrice;
-						shieldPrice+=750*players;
+						shieldPrice+=750;
 						shieldMaxHealth += 15;
 					}
 				}
@@ -1489,21 +1485,7 @@ if(healthPowerUpX > goodTankPlayer2X-65 && healthPowerUpX < goodTankPlayer2X+130
 	public void mouseDetectionSettings(){
 		if(stage == 4){
 		//toggle players button
-		if(MouseX > 150 && MouseX < 300){
-			if(MouseY > 100 && MouseY < 175){
-				if(players == 1){
-					players = 2;
-				}else{
-					players = 1;
-				}
-			}
-		}
-		//back to main menu button
-		if(MouseX > 150 && MouseX < 275){
-			if(MouseY > 600 && MouseY < 650){
-				stage = 0;
-			}
-		}
+
 	}
 	}
 }
