@@ -745,11 +745,11 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			}
 			if(bulletTimeLeft > 0){
 				g.setColor(Color.white);
-			g.drawString("Time Remaining : " + bulletTimeLeft, 25, 695);
+			g.drawString("Time Remaining : " + bulletTimeLeft, 25, 665);
 			}
 			if(extraTankTimeLeft > 0){
 				g.setColor(Color.white);
-			g.drawString("Time Remaining : " + extraTankTimeLeft, 25, 695);
+			g.drawString("Time Remaining : " + extraTankTimeLeft, 25, 635);
 			}
 			//testing for game over state
 			if(badTankCurrentHealth <= 0){
