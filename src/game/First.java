@@ -228,6 +228,10 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		
 		public int extraTankMV;
 		public int extraTankVV;
+		
+		//autoshoot variables
+		public int autoShoot1;
+		public int autoShoot2;
 
 	//images for good tank 1
 	Image goodTank;
@@ -886,6 +890,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		
 	}
 	if(e.getKeyCode() == KeyEvent.VK_SPACE){
+		autoShoot1 = 1;
 		if(stage == 1 && goodBulletV == 0){
 			goodBulletV = 1;
 			goodBulletY = 540;
@@ -905,6 +910,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		}
 	}
 	if(e.getKeyCode() == KeyEvent.VK_SHIFT){
+		autoShoot2 = 1;
 		if(stage == 1 && good2BulletV == 0){
 			good2BulletV = 1;
 			good2BulletY = 540;
@@ -927,6 +933,14 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	
 	@Override
 	public void keyReleased(KeyEvent e) {
+		//stopping autoshoot for player 1
+		if(e.getKeyCode() == KeyEvent.VK_SPACE){
+			autoShoot1=0;
+		}
+		//stopping autoshoot for player 2
+		if(e.getKeyCode() == KeyEvent.VK_SHIFT){
+			autoShoot2=0;
+		}
 	}
 
 	@Override
@@ -937,27 +951,9 @@ public class First extends JApplet implements MouseListener, KeyListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		mouseDetectionSettings();
 		mouseV = 0;
 		repaint();
 		//firing good tank bullet
-		if(stage == 1 && goodBulletV == 0){
-			goodBulletV = 1;
-			goodBulletY = 540;
-			goodBulletX = goodTankX+40;
-		}
-		if(stage == 1 && tankSideShootLeftV == 0){
-			tankSideShootLeftMV = 0;
-			tankSideShootLeftV = 1;
-			tankSideShootLeftX = goodTankX;
-			tankSideShootLeftY = 540;
-		}
-		if(stage == 1 && tankSideShootRightV == 0){
-			tankSideShootRightMV = 0;
-			tankSideShootRightV = 1;
-			tankSideShootRightX = goodTankX+75;
-			tankSideShootRightY = 540;
-		}
 		
 		int x = e.getX();
 		int y = e.getY();
@@ -1023,7 +1019,6 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		for(int counter = 1; 1 < 2; counter++){
 		try{
 			if(pause == 0){
-				if(stage != 4){
 			//making good tank move properly with key listener
 			if(keyMovementX < 50){
 				goodTankX+=goodTankMovement;
@@ -1068,9 +1063,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			repaint();
 			testingVersion();
 			keyTestingInGame();
-				}else{
-					mouseDetectionSettings();
-				}
+			autoShooting();
 		}
 		sleep(13);
 		}catch(InterruptedException e){
@@ -1749,11 +1742,46 @@ if(healthPowerUpX > goodTankPlayer2X-65 && healthPowerUpX < goodTankPlayer2X+130
 			keyMovement2X = 0;
 		}
 	}
-	
-	public void mouseDetectionSettings(){
-		if(stage == 4){
-		//toggle players button
-
-	}
+	public void autoShooting(){
+		//auto shoot for player 1
+		if(autoShoot1 == 1){
+		if(stage == 1 && goodBulletV == 0){
+			goodBulletV = 1;
+			goodBulletY = 540;
+			goodBulletX = goodTankX+40;
+		}
+		if(stage == 1 && tankSideShootLeftV == 0){
+			tankSideShootLeftMV = 0;
+			tankSideShootLeftV = 1;
+			tankSideShootLeftX = goodTankX;
+			tankSideShootLeftY = 540;
+		}
+		if(stage == 1 && tankSideShootRightV == 0){
+			tankSideShootRightMV = 0;
+			tankSideShootRightV = 1;
+			tankSideShootRightX = goodTankX+75;
+			tankSideShootRightY = 540;
+		}
+		}
+		//auto shoot for player 2
+		if(autoShoot2 == 1){
+			if(stage == 1 && good2BulletV == 0){
+				good2BulletV = 1;
+				good2BulletY = 540;
+				good2BulletX = goodTankPlayer2X+40;
+			}
+			if(stage == 1 && tank2SideShootLeftV == 0){
+				tank2SideShootLeftMV = 0;
+				tank2SideShootLeftV = 1;
+				tank2SideShootLeftX = goodTankPlayer2X;
+				tank2SideShootLeftY = 540;
+			}
+			if(stage == 1 && tank2SideShootRightV == 0){
+				tank2SideShootRightMV = 0;
+				tank2SideShootRightV = 1;
+				tank2SideShootRightX = goodTankPlayer2X+75;
+				tank2SideShootRightY = 540;
+			}
+		}
 	}
 }
