@@ -1181,7 +1181,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 				goodBulletY-=250;
 				badTankCurrentHealth-=goodBulletDamage;
 				badTankHitV = 1;
-				balance+=15*goodBulletDamage+1000;
+				balance+=15*goodBulletDamage;
 			}
 		}
 	}
