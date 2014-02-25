@@ -113,7 +113,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	public int MouseY;
 	public int mouseV = 1;
 	//balance player accumulates throught play state
-	public int balance = 25000;
+	public int balance = 250;
 	
 	//current round of game state
 	public int currentRound = 1;
@@ -1181,7 +1181,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 				goodBulletY-=250;
 				badTankCurrentHealth-=goodBulletDamage;
 				badTankHitV = 1;
-				balance+=15*goodBulletDamage;
+				balance+=15*goodBulletDamage+1000;
 			}
 		}
 	}
