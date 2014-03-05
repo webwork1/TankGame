@@ -244,6 +244,17 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		public int blockCoolDownY = 58;
 		public int blockCoolDownTime = 10000;
 		
+		//ability variables PLAYER 2
+		public int blockX2 = -300;
+		public int blockY2 = -300;
+		public int blockTest2;
+		public int blockLength2 = 100;
+		public int blockCheck2;
+		public int blockTestCheck2;
+		
+		public int blockCoolDownY2 = 58;
+		public int blockCoolDownTime2 = 10000;
+		
 	//images for good tank 1
 	Image goodTank;
 	Image goodBullet1;
@@ -293,6 +304,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	
 	//ability images
 	Image blockAbility;
+	Image blockAbility2;
 	
 	Random rr = new Random();
 	
@@ -348,6 +360,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		 
 		 //pics for abilities
 		 blockAbility=getImage(getDocumentBase(), "blockAbility.png");
+		 blockAbility2=getImage(getDocumentBase(), "blockAbility.png");
 		
 		this.addMouseListener(this);
 		this.addKeyListener(this);
@@ -393,9 +406,16 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			g.fillRect(blockX, blockY, blockLength, 30);
 			
 			//drawing abilities
-			g.setColor(Color.white);
+			g.setColor(Color.red);
 			g.drawImage(blockAbility, 1130, 630, this);
-			g.fillRect(1131, 631, 57,blockCoolDownY);
+			g.fillRect(1131, 631, 56,blockCoolDownY);
+			if(players == 2){
+				g.setColor(Color.BLUE);
+				g.drawImage(blockAbility2, 100, 630, this);
+				g.fillRect(101, 631, 56,blockCoolDownY2);
+				g.setColor(Color.YELLOW);
+				g.fillRect(blockX2, blockY2, blockLength2, 30);
+			}
 			//BEGIN PLAYER 2 STUFF
 			if(players == 2){
 				g.drawImage(goodTankPlayer2, goodTankPlayer2X, 550, this);
@@ -915,6 +935,12 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	if(e.getKeyCode() == KeyEvent.VK_1 && blockCoolDownY <= 1){
 		blockTest = 1;
 		blockTestCheck = 1;
+	}
+	if(e.getKeyCode() == KeyEvent.VK_2 && blockCoolDownY2 <= 1){
+		if(players == 2){
+		blockTest2 = 1;
+		blockTestCheck2 = 1;
+		}
 	}
 	if(e.getKeyCode() == KeyEvent.VK_SPACE){
 		autoShoot1 = 1;
@@ -1510,22 +1536,43 @@ if(healthPowerUpX > goodTankPlayer2X-65 && healthPowerUpX < goodTankPlayer2X+130
 	}
 }
 
-//collision between BLOCK ABILITY and BAD TANK BULLET
+//collision between BLOCK ABILITY PLAYER 1 and BAD TANK BULLET
 if(blockX <= badBulletX && blockX+blockLength >= badBulletX){
 	if(blockY < badBulletY+100 && blockY > badBulletY-100){
 		badBulletY -=badBulletM+1;
 	}
 }
-//collision between BLOCK ABILITY and BAD TANK LEFT BULLET
+//collision between BLOCK ABILITY PLAYER 1and BAD TANK LEFT BULLET
 if(blockX <= badTankSideShootLeftX && blockX+blockLength >= badTankSideShootLeftX){
 	if(blockY < badTankSideShootLeftY+100 && blockY > badTankSideShootLeftY-100){
 		badTankSideShootLeftY -=badBulletM+1;
 	}
 }
 
-//collision between BLOCK ABILITY and BAD TANK RIGHT BULLET
+//collision between BLOCK ABILITY PLAYER 1and BAD TANK RIGHT BULLET
 if(blockX <= badTankSideShootRightX && blockX+blockLength >= badTankSideShootRightX){
 	if(blockY < badTankSideShootRightY+100 && blockY > badTankSideShootRightY-100){
+		badTankSideShootRightY -=badBulletM+1;
+	}
+}
+
+
+//collision between BLOCK ABILITY PLAYER 2 and BAD TANK BULLET
+if(blockX2 <= badBulletX && blockX2+blockLength2 >= badBulletX){
+	if(blockY2 < badBulletY+100 && blockY2 > badBulletY-100){
+		badBulletY -=badBulletM+1;
+	}
+}
+//collision between BLOCK ABILITY PLAYER 2 and BAD TANK LEFT BULLET
+if(blockX2 <= badTankSideShootLeftX && blockX2+blockLength2 >= badTankSideShootLeftX){
+	if(blockY2 < badTankSideShootLeftY+100 && blockY2 > badTankSideShootLeftY-100){
+		badTankSideShootLeftY -=badBulletM+1;
+	}
+}
+
+//collision between BLOCK ABILITY PLAYER 2 and BAD TANK RIGHT BULLET
+if(blockX2 <= badTankSideShootRightX && blockX2+blockLength2 >= badTankSideShootRightX){
+	if(blockY2 < badTankSideShootRightY+100 && blockY2 > badTankSideShootRightY-100){
 		badTankSideShootRightY -=badBulletM+1;
 	}
 }
@@ -1834,7 +1881,7 @@ if(blockX <= badTankSideShootRightX && blockX+blockLength >= badTankSideShootRig
 	}
 	public void abilities(){
 		if(stage == 1){
-		//BLOCK ABILITY
+		//BLOCK ABILITY PLAYER 1
 		if(blockTest == 1){
 			blockTest = 0;
 			blockX = goodTankX;
@@ -1852,6 +1899,26 @@ if(blockX <= badTankSideShootRightX && blockX+blockLength >= badTankSideShootRig
 	}
 	blockCoolDownY = 116-58*10000/blockCoolDownTime;
 	blockCoolDownTime-=1;
+	
+	//BLOCK ABILITY PLAYER 2
+	
+	if(blockTest2 == 1){
+		blockTest2 = 0;
+		blockX2 = goodTankPlayer2X;
+		blockY2 = 550;
+		blockCoolDownTime2 = 10000;
+	}
+	if(blockCheck2 == 0 && blockTestCheck2 == 1){
+	blockY2-=3;
+	blockLength2+=4;
+	blockX2-=2;
+	}
+	if(blockY2 < -100){
+	blockTestCheck2 = 1;
+	blockLength2=100;
+	}
+	blockCoolDownY2 = 116-58*10000/blockCoolDownTime2;
+	blockCoolDownTime2-=1;
 	}
 	}
 }
