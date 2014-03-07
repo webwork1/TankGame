@@ -264,6 +264,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		
 		public int stopCoolDownY = 58;
 		public int stopCoolDownTime = 4000;
+		public int stopTest2;
 		
 		int stopReset;
 		int[] rects={0,0,0,0,0,0};
@@ -431,7 +432,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			//PLAYER 1 STOP ABILITY
 			
 			g.setColor(Color.cyan);
-			if(stopReset == 1){
+			if(stopReset == 1 && stopTest2 == 1){
 			for(int x = 0; x<6;x++){
 				if(rects[x] == 0){
 				g.fillRect(stopX, x*20+stopY,150,15);
@@ -997,6 +998,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		stopTest = 1;
 		stopTestCheck = 1;
 		stopReset=1;
+		stopTest2 = 1;
 		for(int x = 0; x<5;x++){
 			rects[x] = 0;
 		}
@@ -1989,5 +1991,8 @@ if(blockX2 <= badTankSideShootRightX && blockX2+blockLength2 >= badTankSideShoot
 		}
 	stopCoolDownY = 116-58*4000/stopCoolDownTime;
 	stopCoolDownTime-=1;
+	if(stopCoolDownY == 10){
+		stopTest2 = 0;
+	}
 	}
 }
