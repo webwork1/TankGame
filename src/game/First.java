@@ -233,7 +233,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		public int autoShoot1;
 		public int autoShoot2;
 		
-		//ability variables
+		//ability variables PLAYER 1
 		public int blockX = -300;
 		public int blockY = -300;
 		public int blockTest;
@@ -254,6 +254,20 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		
 		public int blockCoolDownY2 = 58;
 		public int blockCoolDownTime2 = 10000;
+		
+		//STOP ABILITY for PLAYER 1
+		public int stopX = -300;
+		public int stopY = -300;
+		public int stopTest;
+		public int stopCheck;
+		public int stopTestCheck;
+		
+		public int stopCoolDownY = 58;
+		public int stopCoolDownTime = 4000;
+		
+		int stopReset;
+		int[] rects={0,0,0,0,0,0};
+		
 		
 	//images for good tank 1
 	Image goodTank;
@@ -305,6 +319,8 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	//ability images
 	Image blockAbility;
 	Image blockAbility2;
+	
+	Image stopAbility;
 	
 	Random rr = new Random();
 	
@@ -361,6 +377,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		 //pics for abilities
 		 blockAbility=getImage(getDocumentBase(), "blockAbility.png");
 		 blockAbility2=getImage(getDocumentBase(), "blockAbility.png");
+		 stopAbility=getImage(getDocumentBase(), "stopAbility.png");
 		
 		this.addMouseListener(this);
 		this.addKeyListener(this);
@@ -406,13 +423,47 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			g.fillRect(blockX, blockY, blockLength, 30);
 			
 			//drawing abilities
-			g.setColor(Color.red);
+			g.setColor(Color.green);
 			g.drawImage(blockAbility, 1130, 630, this);
+			g.drawImage(stopAbility, 1060, 630, this);
 			g.fillRect(1131, 631, 56,blockCoolDownY);
+			g.fillRect(1061,631,56,stopCoolDownY);
+			//PLAYER 1 STOP ABILITY
+			
+			g.setColor(Color.cyan);
+			if(stopReset == 1){
+			for(int x = 0; x<6;x++){
+				if(rects[x] == 0){
+				g.fillRect(stopX, x*20+stopY,150,15);
+				if(stopX <= badBulletX && stopX+150 >= badBulletX){
+					if(x*20+stopY < badBulletY+100 && x*20+stopY > badBulletY-100){
+						rects[x] = 1;
+						badBulletY+=700;
+					}
+				}
+				if(badSideBulletDamage >= 1){
+				if(stopX <=badTankSideShootLeftX && stopX+150 >= badTankSideShootLeftX){
+					if(x*20+stopY < badTankSideShootLeftY+100 && x*20+stopY > badTankSideShootLeftY-100){
+						rects[x] = 1;
+						badTankSideShootLeftY+=700;
+					}
+				}
+				if(stopX <=badTankSideShootRightX && stopX+150 >= badTankSideShootRightX){
+					if(x*20+stopY < badTankSideShootRightY+100 && x*20+stopY > badTankSideShootRightY-100){
+						rects[x] = 1;
+						badTankSideShootRightY+=700;
+					}
+				}
+				}
+				}
+			}
+			}
+			
+			
 			if(players == 2){
 				g.setColor(Color.BLUE);
-				g.drawImage(blockAbility2, 100, 630, this);
-				g.fillRect(101, 631, 56,blockCoolDownY2);
+				g.drawImage(blockAbility2, 10, 630, this);
+				g.fillRect(11, 631, 56,blockCoolDownY2);
 				g.setColor(Color.YELLOW);
 				g.fillRect(blockX2, blockY2, blockLength2, 30);
 			}
@@ -932,16 +983,24 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		}
 		
 	}
-	if(e.getKeyCode() == KeyEvent.VK_1 && blockCoolDownY <= 1){
+	if(e.getKeyCode() == KeyEvent.VK_M && blockCoolDownY <= 1){
 		blockTest = 1;
 		blockTestCheck = 1;
 	}
-	if(e.getKeyCode() == KeyEvent.VK_2 && blockCoolDownY2 <= 1){
+	if(e.getKeyCode() == KeyEvent.VK_1 && blockCoolDownY2 <= 1){
 		if(players == 2){
 		blockTest2 = 1;
 		blockTestCheck2 = 1;
 		}
 	}
+	if(e.getKeyCode() == KeyEvent.VK_N && stopCoolDownY <= 1){
+		stopTest = 1;
+		stopTestCheck = 1;
+		stopReset=1;
+		for(int x = 0; x<5;x++){
+			rects[x] = 0;
+		}
+		}
 	if(e.getKeyCode() == KeyEvent.VK_SPACE){
 		autoShoot1 = 1;
 		if(stage == 1 && goodBulletV == 0){
@@ -1920,5 +1979,15 @@ if(blockX2 <= badTankSideShootRightX && blockX2+blockLength2 >= badTankSideShoot
 	blockCoolDownY2 = 116-58*10000/blockCoolDownTime2;
 	blockCoolDownTime2-=1;
 	}
+		
+	//STOP ABILITY PLAYER 1
+		if(stopTest == 1){
+			stopTest = 0;
+			stopX = goodTankX;
+			stopY = 350;
+			stopCoolDownTime = 4000;
+		}
+	stopCoolDownY = 116-58*4000/stopCoolDownTime;
+	stopCoolDownTime-=1;
 	}
 }
