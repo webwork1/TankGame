@@ -268,7 +268,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		public int stopTest2;
 		
 		int stopReset;
-		int[] rects={0,0,0,0,0,0};
+		int[] rects={0,0,0,0,0};
 		
 		//STOP ABILITY for PLAYER 2
 		public int stop2X = -300;
@@ -479,7 +479,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			
 			g.setColor(Color.cyan);
 			if(stopReset == 1 && stopTest2 == 1){
-			for(int x = 0; x<6;x++){
+			for(int x = 0; x<5;x++){
 				if(rects[x] == 0){
 				g.fillRect(stopX, x*20+stopY,150,15);
 				if(stopX <= badBulletX && stopX+150 >= badBulletX){
@@ -517,7 +517,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 				g.fillRect(blockX2, blockY2, blockLength2, 30);
 				g.setColor(Color.magenta);
 				if(stop2Reset == 1 && stop2Test2 == 1){
-				for(int x = 0; x<6;x++){
+				for(int x = 0; x<5;x++){
 					if(rects2[x] == 0){
 					g.fillRect(stop2X, x*20+stop2Y,150,15);
 					if(stop2X <= badBulletX && stop2X+150 >= badBulletX){
@@ -1296,7 +1296,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		for(int counter = 1; 1 < 2; counter++){
 		try{
 			abilities();
-		sleep(50);
+		sleep(55);
 		}catch(InterruptedException e){
 		e.printStackTrace();
 		}
