@@ -98,8 +98,8 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	public int goodTankHitV;
 	
 	//bad tank health and collision variables
-	public int badTankMaxHealth = 5;
-	public int badTankCurrentHealth = 5;
+	public int badTankMaxHealth = 6;
+	public int badTankCurrentHealth = 6;
 	public int badTankHitV;
 	
 	//shop items cost
@@ -243,7 +243,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		public int blockTestCheck;
 		
 		public int blockCoolDownY = 58;
-		public int blockCoolDownTime = 5000;
+		public int blockCoolDownTime = 3000;
 		
 		//ability variables PLAYER 2
 		public int blockX2 = -300;
@@ -254,7 +254,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		public int blockTestCheck2;
 		
 		public int blockCoolDownY2 = 58;
-		public int blockCoolDownTime2 = 5000;
+		public int blockCoolDownTime2 = 3000;
 		
 		//STOP ABILITY for PLAYER 1
 		public int stopX = -300;
@@ -264,11 +264,11 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		public int stopTestCheck;
 		
 		public int stopCoolDownY = 58;
-		public int stopCoolDownTime = 4000;
+		public int stopCoolDownTime = 2500;
 		public int stopTest2;
 		
 		int stopReset;
-		int[] rects={0,0,0,0,0};
+		int[] rects={0,0,0,0,0,0};
 		
 		//STOP ABILITY for PLAYER 2
 		public int stop2X = -300;
@@ -278,7 +278,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		public int stop2TestCheck;
 		
 		public int stop2CoolDownY = 58;
-		public int stop2CoolDownTime = 4000;
+		public int stop2CoolDownTime = 2500;
 		public int stop2Test2;
 		
 		int stop2Reset;
@@ -479,7 +479,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			
 			g.setColor(Color.cyan);
 			if(stopReset == 1 && stopTest2 == 1){
-			for(int x = 0; x<5;x++){
+			for(int x = 0; x<6;x++){
 				if(rects[x] == 0){
 				g.fillRect(stopX, x*20+stopY,150,15);
 				if(stopX <= badBulletX && stopX+150 >= badBulletX){
@@ -517,7 +517,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 				g.fillRect(blockX2, blockY2, blockLength2, 30);
 				g.setColor(Color.magenta);
 				if(stop2Reset == 1 && stop2Test2 == 1){
-				for(int x = 0; x<5;x++){
+				for(int x = 0; x<6;x++){
 					if(rects2[x] == 0){
 					g.fillRect(stop2X, x*20+stop2Y,150,15);
 					if(stop2X <= badBulletX && stop2X+150 >= badBulletX){
@@ -1080,7 +1080,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		stopTestCheck = 1;
 		stopReset=1;
 		stopTest2 = 1;
-		for(int x = 0; x<5;x++){
+		for(int x = 0; x<6;x++){
 			rects[x] = 0;
 		}
 		}
@@ -1090,7 +1090,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		stop2TestCheck = 1;
 		stop2Reset=1;
 		stop2Test2 = 1;
-		for(int x = 0; x<5;x++){
+		for(int x = 0; x<6;x++){
 			rects2[x] = 0;
 		}
 		}
@@ -1296,7 +1296,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		for(int counter = 1; 1 < 2; counter++){
 		try{
 			abilities();
-		sleep(55);
+		sleep(100);
 		}catch(InterruptedException e){
 		e.printStackTrace();
 		}
@@ -2106,10 +2106,10 @@ if(blockX2 <= badTankSideShootRightX && blockX2+blockLength2 >= badTankSideShoot
 			blockTest = 0;
 			blockX = goodTankX;
 			blockY = 550;
-			blockCoolDownTime = 5000;
+			blockCoolDownTime = 3000;
 		}
 	if(blockCheck == 0 && blockTestCheck == 1){
-		blockY-=3;
+		blockY-=6;
 		blockLength+=4;
 		blockX-=2;
 	}
@@ -2117,7 +2117,7 @@ if(blockX2 <= badTankSideShootRightX && blockX2+blockLength2 >= badTankSideShoot
 		blockTestCheck = 1;
 		blockLength=100;
 	}
-	blockCoolDownY = 116-58*5000/blockCoolDownTime;
+	blockCoolDownY = 116-58*3000/blockCoolDownTime;
 	blockCoolDownTime-=1;
 	
 	//BLOCK ABILITY PLAYER 2
@@ -2126,10 +2126,10 @@ if(blockX2 <= badTankSideShootRightX && blockX2+blockLength2 >= badTankSideShoot
 		blockTest2 = 0;
 		blockX2 = goodTankPlayer2X;
 		blockY2 = 550;
-		blockCoolDownTime2 = 5000;
+		blockCoolDownTime2 = 3000;
 	}
 	if(blockCheck2 == 0 && blockTestCheck2 == 1){
-	blockY2-=3;
+	blockY2-=6;
 	blockLength2+=4;
 	blockX2-=2;
 	}
@@ -2137,7 +2137,7 @@ if(blockX2 <= badTankSideShootRightX && blockX2+blockLength2 >= badTankSideShoot
 	blockTestCheck2 = 1;
 	blockLength2=100;
 	}
-	blockCoolDownY2 = 116-58*5000/blockCoolDownTime2;
+	blockCoolDownY2 = 116-58*3000/blockCoolDownTime2;
 	blockCoolDownTime2-=1;
 		
 	//STOP ABILITY PLAYER 1
@@ -2145,9 +2145,9 @@ if(blockX2 <= badTankSideShootRightX && blockX2+blockLength2 >= badTankSideShoot
 			stopTest = 0;
 			stopX = goodTankX;
 			stopY = 350;
-			stopCoolDownTime = 4000;
+			stopCoolDownTime = 2500;
 		}
-	stopCoolDownY = 116-58*4000/stopCoolDownTime;
+	stopCoolDownY = 116-58*2500/stopCoolDownTime;
 	stopCoolDownTime-=1;
 	if(stopCoolDownY == 10){
 		stopTest2 = 0;
@@ -2158,9 +2158,9 @@ if(blockX2 <= badTankSideShootRightX && blockX2+blockLength2 >= badTankSideShoot
 		stop2Test = 0;
 		stop2X = goodTankPlayer2X;
 		stop2Y = 350;
-		stop2CoolDownTime = 4000;
+		stop2CoolDownTime = 2500;
 	}
-stop2CoolDownY = 116-58*4000/stop2CoolDownTime;
+stop2CoolDownY = 116-58*2500/stop2CoolDownTime;
 stop2CoolDownTime-=1;
 if(stop2CoolDownY == 10){
 	stop2Test2 = 0;
