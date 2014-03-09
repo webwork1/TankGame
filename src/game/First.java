@@ -242,7 +242,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		public int blockTestCheck;
 		
 		public int blockCoolDownY = 58;
-		public int blockCoolDownTime = 10000;
+		public int blockCoolDownTime = 5000;
 		
 		//ability variables PLAYER 2
 		public int blockX2 = -300;
@@ -253,7 +253,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		public int blockTestCheck2;
 		
 		public int blockCoolDownY2 = 58;
-		public int blockCoolDownTime2 = 10000;
+		public int blockCoolDownTime2 = 5000;
 		
 		//STOP ABILITY for PLAYER 1
 		public int stopX = -300;
@@ -268,6 +268,20 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		
 		int stopReset;
 		int[] rects={0,0,0,0,0,0};
+		
+		//STOP ABILITY for PLAYER 2
+		public int stop2X = -300;
+		public int stop2Y = -300;
+		public int stop2Test;
+		public int stop2Check;
+		public int stop2TestCheck;
+		
+		public int stop2CoolDownY = 58;
+		public int stop2CoolDownTime = 4000;
+		public int stop2Test2;
+		
+		int stop2Reset;
+		int[] rects2={0,0,0,0,0,0};
 		
 		
 	//images for good tank 1
@@ -322,6 +336,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	Image blockAbility2;
 	
 	Image stopAbility;
+	Image stop2Ability;
 	
 	Random rr = new Random();
 	
@@ -379,6 +394,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		 blockAbility=getImage(getDocumentBase(), "blockAbility.png");
 		 blockAbility2=getImage(getDocumentBase(), "blockAbility.png");
 		 stopAbility=getImage(getDocumentBase(), "stopAbility.png");
+		 stop2Ability=getImage(getDocumentBase(), "stopAbility.png");
 		
 		this.addMouseListener(this);
 		this.addKeyListener(this);
@@ -395,6 +411,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			//starting update function
 			if(UpdateV == 0){
 				update();
+				update2();
 				UpdateV++;
 				}
 			//start screen
@@ -463,10 +480,40 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			
 			if(players == 2){
 				g.setColor(Color.BLUE);
+				g.drawImage(stop2Ability, 80, 630, this);
 				g.drawImage(blockAbility2, 10, 630, this);
+				g.fillRect(81,631,56,stop2CoolDownY);
 				g.fillRect(11, 631, 56,blockCoolDownY2);
 				g.setColor(Color.YELLOW);
 				g.fillRect(blockX2, blockY2, blockLength2, 30);
+				g.setColor(Color.magenta);
+				if(stop2Reset == 1 && stop2Test2 == 1){
+				for(int x = 0; x<6;x++){
+					if(rects2[x] == 0){
+					g.fillRect(stop2X, x*20+stop2Y,150,15);
+					if(stop2X <= badBulletX && stop2X+150 >= badBulletX){
+						if(x*20+stop2Y < badBulletY+100 && x*20+stop2Y > badBulletY-100){
+							rects2[x] = 1;
+							badBulletY+=700;
+						}
+					}
+					if(badSideBulletDamage >= 1){
+					if(stop2X <=badTankSideShootLeftX && stop2X+150 >= badTankSideShootLeftX){
+						if(x*20+stop2Y < badTankSideShootLeftY+100 && x*20+stop2Y > badTankSideShootLeftY-100){
+							rects2[x] = 1;
+							badTankSideShootLeftY+=700;
+						}
+					}
+					if(stop2X <=badTankSideShootRightX && stop2X+150 >= badTankSideShootRightX){
+						if(x*20+stop2Y < badTankSideShootRightY+100 && x*20+stop2Y > badTankSideShootRightY-100){
+							rects2[x] = 1;
+							badTankSideShootRightY+=700;
+						}
+					}
+					}
+					}
+				}
+				}
 			}
 			//BEGIN PLAYER 2 STUFF
 			if(players == 2){
@@ -1003,6 +1050,15 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			rects[x] = 0;
 		}
 		}
+	if(e.getKeyCode() == KeyEvent.VK_2 && stop2CoolDownY <= 1){
+		stop2Test = 1;
+		stop2TestCheck = 1;
+		stop2Reset=1;
+		stop2Test2 = 1;
+		for(int x = 0; x<5;x++){
+			rects2[x] = 0;
+		}
+		}
 	if(e.getKeyCode() == KeyEvent.VK_SPACE){
 		autoShoot1 = 1;
 		if(stage == 1 && goodBulletV == 0){
@@ -1178,7 +1234,6 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			testingVersion();
 			keyTestingInGame();
 			autoShooting();
-			abilities();
 		}
 		sleep(13);
 		}catch(InterruptedException e){
@@ -1188,6 +1243,23 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		}
 		
 		};t.start();}
+	
+	public void update2(){
+
+		Thread t2 = new Thread(){
+		public void run(){
+		for(int counter = 1; 1 < 2; counter++){
+		try{
+			abilities();
+		sleep(50);
+		}catch(InterruptedException e){
+		e.printStackTrace();
+		}
+		}
+		}
+		
+		};t2.start();}
+	
 	
 	public void moveBadTank(){
 		//moving bad tank randomly
@@ -1947,7 +2019,7 @@ if(blockX2 <= badTankSideShootRightX && blockX2+blockLength2 >= badTankSideShoot
 			blockTest = 0;
 			blockX = goodTankX;
 			blockY = 550;
-			blockCoolDownTime = 10000;
+			blockCoolDownTime = 5000;
 		}
 	if(blockCheck == 0 && blockTestCheck == 1){
 		blockY-=3;
@@ -1958,7 +2030,7 @@ if(blockX2 <= badTankSideShootRightX && blockX2+blockLength2 >= badTankSideShoot
 		blockTestCheck = 1;
 		blockLength=100;
 	}
-	blockCoolDownY = 116-58*10000/blockCoolDownTime;
+	blockCoolDownY = 116-58*5000/blockCoolDownTime;
 	blockCoolDownTime-=1;
 	
 	//BLOCK ABILITY PLAYER 2
@@ -1967,7 +2039,7 @@ if(blockX2 <= badTankSideShootRightX && blockX2+blockLength2 >= badTankSideShoot
 		blockTest2 = 0;
 		blockX2 = goodTankPlayer2X;
 		blockY2 = 550;
-		blockCoolDownTime2 = 10000;
+		blockCoolDownTime2 = 5000;
 	}
 	if(blockCheck2 == 0 && blockTestCheck2 == 1){
 	blockY2-=3;
@@ -1978,7 +2050,7 @@ if(blockX2 <= badTankSideShootRightX && blockX2+blockLength2 >= badTankSideShoot
 	blockTestCheck2 = 1;
 	blockLength2=100;
 	}
-	blockCoolDownY2 = 116-58*10000/blockCoolDownTime2;
+	blockCoolDownY2 = 116-58*5000/blockCoolDownTime2;
 	blockCoolDownTime2-=1;
 	}
 		
@@ -1994,5 +2066,19 @@ if(blockX2 <= badTankSideShootRightX && blockX2+blockLength2 >= badTankSideShoot
 	if(stopCoolDownY == 10){
 		stopTest2 = 0;
 	}
+	
+	//STOP ABILITY PLAYER 2
+	if(stop2Test == 1){
+		stop2Test = 0;
+		stop2X = goodTankPlayer2X;
+		stop2Y = 350;
+		stop2CoolDownTime = 4000;
+	}
+stop2CoolDownY = 116-58*4000/stop2CoolDownTime;
+stop2CoolDownTime-=1;
+if(stop2CoolDownY == 10){
+	stop2Test2 = 0;
+}
+
 	}
 }
