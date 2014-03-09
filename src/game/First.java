@@ -98,8 +98,8 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	public int goodTankHitV;
 	
 	//bad tank health and collision variables
-	public int badTankMaxHealth = 8;
-	public int badTankCurrentHealth = 8;
+	public int badTankMaxHealth = 5;
+	public int badTankCurrentHealth = 5;
 	public int badTankHitV;
 	
 	//shop items cost
