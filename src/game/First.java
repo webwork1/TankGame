@@ -243,7 +243,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		public int blockTestCheck;
 		
 		public int blockCoolDownY = 58;
-		public int blockCoolDownTime = 3000;
+		public int blockCoolDownTime = 2400;
 		
 		//ability variables PLAYER 2
 		public int blockX2 = -300;
@@ -254,7 +254,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		public int blockTestCheck2;
 		
 		public int blockCoolDownY2 = 58;
-		public int blockCoolDownTime2 = 3000;
+		public int blockCoolDownTime2 = 2400;
 		
 		//STOP ABILITY for PLAYER 1
 		public int stopX = -300;
@@ -264,11 +264,11 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		public int stopTestCheck;
 		
 		public int stopCoolDownY = 58;
-		public int stopCoolDownTime = 2500;
+		public int stopCoolDownTime = 1300;
 		public int stopTest2;
 		
 		int stopReset;
-		int[] rects={0,0,0,0,0,0};
+		int[] rects={0,0,0,0,0};
 		
 		//STOP ABILITY for PLAYER 2
 		public int stop2X = -300;
@@ -278,11 +278,33 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		public int stop2TestCheck;
 		
 		public int stop2CoolDownY = 58;
-		public int stop2CoolDownTime = 2500;
+		public int stop2CoolDownTime = 1300;
 		public int stop2Test2;
 		
 		int stop2Reset;
-		int[] rects2={0,0,0,0,0,0};
+		int[] rects2={0,0,0,0,0};
+		
+		//ATTACK ABILITY for PLAYER 1
+		public int attackX = -300;
+		public int attackY = -300;
+		public int attackTest;
+		public int attackLength = 100;
+		public int attackCheck;
+		public int attackTestCheck;
+		
+		public int attackCoolDownY = 58;
+		public int attackCoolDownTime = 1500;
+		
+		//ATTACK ABILITY for PLAYER 2
+		public int attack2X = -300;
+		public int attack2Y = -300;
+		public int attack2Test;
+		public int attack2Length = 100;
+		public int attack2Check;
+		public int attack2TestCheck;
+		
+		public int attack2CoolDownY = 58;
+		public int attack2CoolDownTime = 1500;
 		
 		
 	//images for good tank 1
@@ -338,6 +360,12 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	
 	Image stopAbility;
 	Image stop2Ability;
+	
+	Image attackAbility;
+	Image attack2Ability;
+	
+	Image attackRect;
+	Image attack2Rect;
 	
 	//AUDIO CLIPS
 	AudioClip goodTankDamage;
@@ -410,6 +438,11 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		 blockAbility2=getImage(getDocumentBase(), "blockAbility.png");
 		 stopAbility=getImage(getDocumentBase(), "stopAbility.png");
 		 stop2Ability=getImage(getDocumentBase(), "stopAbility.png");
+		 attackAbility=getImage(getDocumentBase(), "attackAbility.png");
+		 attack2Ability=getImage(getDocumentBase(), "attackAbility.png");
+		 attackRect=getImage(getDocumentBase(), "attackRect.png");
+		 attack2Rect=getImage(getDocumentBase(), "attackRect.png");
+		 
 		 
 		 //audio clips
 		 goodTankDamage = getAudioClip(getDocumentBase(), "goodTankDamage.wav"); 
@@ -458,6 +491,64 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			break;
 		
 		case 1:
+
+			//collision between BLOCK ABILITY PLAYER 1 and BAD TANK BULLET
+			if(blockX <= badBulletX && blockX+blockLength >= badBulletX){
+				if(blockY < badBulletY+100 && blockY > badBulletY-100){
+					badBulletY -=badBulletM+1;
+				}
+			}
+			//collision between BLOCK ABILITY PLAYER 1and BAD TANK LEFT BULLET
+			if(blockX <= badTankSideShootLeftX && blockX+blockLength >= badTankSideShootLeftX){
+				if(blockY < badTankSideShootLeftY+100 && blockY > badTankSideShootLeftY-100){
+					badTankSideShootLeftY -=badBulletM+1;
+				}
+			}
+
+			//collision between BLOCK ABILITY PLAYER 1and BAD TANK RIGHT BULLET
+			if(blockX <= badTankSideShootRightX && blockX+blockLength >= badTankSideShootRightX){
+				if(blockY < badTankSideShootRightY+100 && blockY > badTankSideShootRightY-100){
+					badTankSideShootRightY -=badBulletM+1;
+				}
+			}
+
+
+			//collision between BLOCK ABILITY PLAYER 2 and BAD TANK BULLET
+			if(blockX2 <= badBulletX && blockX2+blockLength2 >= badBulletX){
+				if(blockY2 < badBulletY+100 && blockY2 > badBulletY-100){
+					badBulletY -=badBulletM+1;
+				}
+			}
+			//collision between BLOCK ABILITY PLAYER 2 and BAD TANK LEFT BULLET
+			if(blockX2 <= badTankSideShootLeftX && blockX2+blockLength2 >= badTankSideShootLeftX){
+				if(blockY2 < badTankSideShootLeftY+100 && blockY2 > badTankSideShootLeftY-100){
+					badTankSideShootLeftY -=badBulletM+1;
+				}
+			}
+
+			//collision between BLOCK ABILITY PLAYER 2 and BAD TANK RIGHT BULLET
+			if(blockX2 <= badTankSideShootRightX && blockX2+blockLength2 >= badTankSideShootRightX){
+				if(blockY2 < badTankSideShootRightY+100 && blockY2 > badTankSideShootRightY-100){
+					badTankSideShootRightY -=badBulletM+1;
+				}
+			}
+			// ability movment
+			if(blockCheck == 0 && blockTestCheck == 1){
+				blockY-=2;
+				blockLength+=4;
+				blockX-=2;
+			}
+			if(blockCheck2 == 0 && blockTestCheck2 == 1){
+				blockY2-=2;
+				blockLength2+=4;
+				blockX2-=2;
+				}
+			if(attack2Check == 0 && attack2TestCheck == 1){
+				attack2Y-=6;
+				}
+			if(attackCheck == 0 && attackTestCheck == 1){
+				attackY-=6;
+				}
 			if(pause == 0){
 			//player 2 tank stuff
 			//game (playing) state
@@ -473,13 +564,17 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			g.setColor(Color.green);
 			g.drawImage(blockAbility, 1130, 630, this);
 			g.drawImage(stopAbility, 1060, 630, this);
+			g.drawImage(attackAbility, 990, 630, this);
 			g.fillRect(1131, 631, 56,blockCoolDownY);
 			g.fillRect(1061,631,56,stopCoolDownY);
+			g.fillRect(991,631,56,attackCoolDownY);
+			
+			g.drawImage(attackRect, attackX, attackY, this);
 			//PLAYER 1 STOP ABILITY
 			
 			g.setColor(Color.cyan);
 			if(stopReset == 1 && stopTest2 == 1){
-			for(int x = 0; x<6;x++){
+			for(int x = 0; x<5;x++){
 				if(rects[x] == 0){
 				g.fillRect(stopX, x*20+stopY,150,15);
 				if(stopX <= badBulletX && stopX+150 >= badBulletX){
@@ -511,13 +606,16 @@ public class First extends JApplet implements MouseListener, KeyListener{
 				g.setColor(Color.BLUE);
 				g.drawImage(stop2Ability, 80, 630, this);
 				g.drawImage(blockAbility2, 10, 630, this);
+				g.drawImage(attack2Ability, 150, 630, this);
 				g.fillRect(81,631,56,stop2CoolDownY);
 				g.fillRect(11, 631, 56,blockCoolDownY2);
+				g.fillRect(151, 631, 56,attack2CoolDownY);
 				g.setColor(Color.YELLOW);
 				g.fillRect(blockX2, blockY2, blockLength2, 30);
+				g.drawImage(attackRect,attack2X, attack2Y, this);
 				g.setColor(Color.magenta);
 				if(stop2Reset == 1 && stop2Test2 == 1){
-				for(int x = 0; x<6;x++){
+				for(int x = 0; x<5;x++){
 					if(rects2[x] == 0){
 					g.fillRect(stop2X, x*20+stop2Y,150,15);
 					if(stop2X <= badBulletX && stop2X+150 >= badBulletX){
@@ -1080,9 +1178,19 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		stopTestCheck = 1;
 		stopReset=1;
 		stopTest2 = 1;
-		for(int x = 0; x<6;x++){
+		for(int x = 0; x<5;x++){
 			rects[x] = 0;
 		}
+		}
+	if(e.getKeyCode() == KeyEvent.VK_3 && attack2CoolDownY <= 1){
+		attack2Test = 1;
+		attack2TestCheck = 1;
+		attack2Test = 1;
+		}
+	if(e.getKeyCode() == KeyEvent.VK_B && attackCoolDownY <= 1){
+		attackTest = 1;
+		attackTestCheck = 1;
+		attackTest = 1;
 		}
 	if(e.getKeyCode() == KeyEvent.VK_2 && stop2CoolDownY <= 1){
 		stopAbilitySound.play();
@@ -1090,7 +1198,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		stop2TestCheck = 1;
 		stop2Reset=1;
 		stop2Test2 = 1;
-		for(int x = 0; x<6;x++){
+		for(int x = 0; x<5;x++){
 			rects2[x] = 0;
 		}
 		}
@@ -1271,7 +1379,6 @@ public class First extends JApplet implements MouseListener, KeyListener{
 				shopCooldownClick--;
 			}
 			moveBadTank();
-			collisionDetectionInGame();
 			shopMouseDetection();
 			movingPowerUps();
 			powerUpTimeLeft();
@@ -1280,7 +1387,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			keyTestingInGame();
 			autoShooting();
 		}
-		sleep(13);
+		sleep(14);
 		}catch(InterruptedException e){
 		e.printStackTrace();
 		}
@@ -1296,6 +1403,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		for(int counter = 1; 1 < 2; counter++){
 		try{
 			abilities();
+			collisionDetectionInGame();
 		sleep(100);
 		}catch(InterruptedException e){
 		e.printStackTrace();
@@ -1743,45 +1851,22 @@ if(healthPowerUpX > goodTankPlayer2X-65 && healthPowerUpX < goodTankPlayer2X+130
 	}
 }
 	}
-
-//collision between BLOCK ABILITY PLAYER 1 and BAD TANK BULLET
-if(blockX <= badBulletX && blockX+blockLength >= badBulletX){
-	if(blockY < badBulletY+100 && blockY > badBulletY-100){
-		badBulletY -=badBulletM+1;
+//collision between ATTACK ABILITY PLAYER 1 and BAD TANK
+if(attackX-15 <= badTankX && attackX+260 >= badTankX){
+	if(attackY < 150 && attackY > 25){
+		badTankDamage.play();
+		badTankCurrentHealth-=5;
+		balance+=60;
+		attackY-=450;
 	}
 }
-//collision between BLOCK ABILITY PLAYER 1and BAD TANK LEFT BULLET
-if(blockX <= badTankSideShootLeftX && blockX+blockLength >= badTankSideShootLeftX){
-	if(blockY < badTankSideShootLeftY+100 && blockY > badTankSideShootLeftY-100){
-		badTankSideShootLeftY -=badBulletM+1;
-	}
-}
-
-//collision between BLOCK ABILITY PLAYER 1and BAD TANK RIGHT BULLET
-if(blockX <= badTankSideShootRightX && blockX+blockLength >= badTankSideShootRightX){
-	if(blockY < badTankSideShootRightY+100 && blockY > badTankSideShootRightY-100){
-		badTankSideShootRightY -=badBulletM+1;
-	}
-}
-
-
-//collision between BLOCK ABILITY PLAYER 2 and BAD TANK BULLET
-if(blockX2 <= badBulletX && blockX2+blockLength2 >= badBulletX){
-	if(blockY2 < badBulletY+100 && blockY2 > badBulletY-100){
-		badBulletY -=badBulletM+1;
-	}
-}
-//collision between BLOCK ABILITY PLAYER 2 and BAD TANK LEFT BULLET
-if(blockX2 <= badTankSideShootLeftX && blockX2+blockLength2 >= badTankSideShootLeftX){
-	if(blockY2 < badTankSideShootLeftY+100 && blockY2 > badTankSideShootLeftY-100){
-		badTankSideShootLeftY -=badBulletM+1;
-	}
-}
-
-//collision between BLOCK ABILITY PLAYER 2 and BAD TANK RIGHT BULLET
-if(blockX2 <= badTankSideShootRightX && blockX2+blockLength2 >= badTankSideShootRightX){
-	if(blockY2 < badTankSideShootRightY+100 && blockY2 > badTankSideShootRightY-100){
-		badTankSideShootRightY -=badBulletM+1;
+//collision between ATTACK ABILITY PLAYER 1 and BAD TANK
+if(attack2X-15 <= badTankX && attack2X+260 >= badTankX){
+	if(attack2Y < 150 && attack2Y > 25){
+		badTankDamage.play();
+		balance+=60;
+		badTankCurrentHealth-=5;
+		attack2Y-=450;
 	}
 }
 
@@ -2106,18 +2191,13 @@ if(blockX2 <= badTankSideShootRightX && blockX2+blockLength2 >= badTankSideShoot
 			blockTest = 0;
 			blockX = goodTankX;
 			blockY = 550;
-			blockCoolDownTime = 3000;
+			blockCoolDownTime = 2400;
 		}
-	if(blockCheck == 0 && blockTestCheck == 1){
-		blockY-=6;
-		blockLength+=4;
-		blockX-=2;
-	}
 	if(blockY < -100){
 		blockTestCheck = 1;
 		blockLength=100;
 	}
-	blockCoolDownY = 116-58*3000/blockCoolDownTime;
+	blockCoolDownY = 116-58*2400/blockCoolDownTime;
 	blockCoolDownTime-=1;
 	
 	//BLOCK ABILITY PLAYER 2
@@ -2126,18 +2206,13 @@ if(blockX2 <= badTankSideShootRightX && blockX2+blockLength2 >= badTankSideShoot
 		blockTest2 = 0;
 		blockX2 = goodTankPlayer2X;
 		blockY2 = 550;
-		blockCoolDownTime2 = 3000;
-	}
-	if(blockCheck2 == 0 && blockTestCheck2 == 1){
-	blockY2-=6;
-	blockLength2+=4;
-	blockX2-=2;
+		blockCoolDownTime2 = 2400;
 	}
 	if(blockY2 < -100){
 	blockTestCheck2 = 1;
 	blockLength2=100;
 	}
-	blockCoolDownY2 = 116-58*3000/blockCoolDownTime2;
+	blockCoolDownY2 = 116-58*2400/blockCoolDownTime2;
 	blockCoolDownTime2-=1;
 		
 	//STOP ABILITY PLAYER 1
@@ -2145,9 +2220,9 @@ if(blockX2 <= badTankSideShootRightX && blockX2+blockLength2 >= badTankSideShoot
 			stopTest = 0;
 			stopX = goodTankX;
 			stopY = 350;
-			stopCoolDownTime = 2500;
+			stopCoolDownTime = 1300;
 		}
-	stopCoolDownY = 116-58*2500/stopCoolDownTime;
+	stopCoolDownY = 116-58*1300/stopCoolDownTime;
 	stopCoolDownTime-=1;
 	if(stopCoolDownY == 10){
 		stopTest2 = 0;
@@ -2158,13 +2233,39 @@ if(blockX2 <= badTankSideShootRightX && blockX2+blockLength2 >= badTankSideShoot
 		stop2Test = 0;
 		stop2X = goodTankPlayer2X;
 		stop2Y = 350;
-		stop2CoolDownTime = 2500;
+		stop2CoolDownTime = 1300;
 	}
-stop2CoolDownY = 116-58*2500/stop2CoolDownTime;
+stop2CoolDownY = 116-58*1300/stop2CoolDownTime;
 stop2CoolDownTime-=1;
 if(stop2CoolDownY == 10){
 	stop2Test2 = 0;
 }
+
+//ATTACK ABILITY PLAYER 1
+if(attackTest == 1){
+	attackTest = 0;
+	attackX = goodTankX-75;
+	attackY = 500;
+	attackCoolDownTime = 1500;
+}
+if(attackY < -100){
+attackTestCheck = 1;
+}
+attackCoolDownY = 116-58*1500/attackCoolDownTime;
+attackCoolDownTime-=1;
+
+//ATTACK ABILITY PLAYER 2
+if(attack2Test == 1){
+	attack2Test = 0;
+	attack2X = goodTankPlayer2X-75;
+	attack2Y = 500;
+	attack2CoolDownTime = 1500;
+}
+if(attack2Y < -100){
+attack2TestCheck = 1;
+}
+attack2CoolDownY = 116-58*1500/attack2CoolDownTime;
+attack2CoolDownTime-=1;
 		}
 	}
 }
