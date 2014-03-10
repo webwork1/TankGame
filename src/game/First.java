@@ -1399,7 +1399,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 			collisionDetectionInGame();
 			testingVersion();
 			autoShooting();
-		sleep(15);
+		sleep(150);
 		}catch(InterruptedException e){
 		e.printStackTrace();
 		}
@@ -1411,7 +1411,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 	
 	public void update3(){
 
-		Thread t2 = new Thread(){
+		Thread t3 = new Thread(){
 		public void run(){
 		for(int counter = 1; 1 < 2; counter++){
 		try{
@@ -1430,7 +1430,7 @@ public class First extends JApplet implements MouseListener, KeyListener{
 		}
 		}
 		
-		};t2.start();}
+		};t3.start();}
 	
 	
 	public void moveBadTank(){
